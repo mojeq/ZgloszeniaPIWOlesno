@@ -1,0 +1,21 @@
+﻿<Window x:Class="ZgłoszeniaPIWOlesno.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ZgłoszeniaPIWOlesno"
+        mc:Ignorable="d"
+        Title="Window1" Height="798.326" Width="351.883">
+    <Grid Margin="0,0,325.6,-307">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="262*"/>
+            <RowDefinition Height="7*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="91*"/>
+            <ColumnDefinition Width="306*"/>
+        </Grid.ColumnDefinitions>
+        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="80.2,101,-245,0" VerticalAlignment="Top" Height="187" Width="180" Grid.Column="1" Checked="CheckBox_Checked"/>
+
+    </Grid>
+</Window>

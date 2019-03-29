@@ -5,8 +5,63 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZgłoszeniaPIWOlesno"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Zgłoszenia PIW Olesno" Height="700" Width="1280" Left="5" Top="5">
+
+    <Grid Height="715.4" Width="1270">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="437*"/>
+            <RowDefinition Height="278*"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="btnBydloPadlo" Content="BYDŁO" HorizontalAlignment="Left" Margin="98,208,0,0" VerticalAlignment="Top" Width="103" Height="99" Background="#FF59C814" FontSize="24" FontWeight="Bold" Click="BtnBydloPadlo_Click"/>
+        <Label Content="Wprowadź zgłoszenie padnięcia" HorizontalAlignment="Left" Margin="143,32,0,0" VerticalAlignment="Top" Height="38" Width="354" FontSize="22" FontWeight="Bold"/>
+        <TextBox x:Name="txtNumer_stada" HorizontalAlignment="Left" Height="50" Margin="98,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="388" BorderBrush="#FF36AE10" FontSize="36" UndoLimit="13" />
+        <Label Content="Wpisz numer gospodarstwa" HorizontalAlignment="Left" Margin="98,94,0,0" VerticalAlignment="Top" Height="26" Width="244"/>
+        <Button x:Name="btnKoza" Content="KOZA" HorizontalAlignment="Left" Margin="239,208,0,0" VerticalAlignment="Top" Width="103" Height="99" Background="#FF59C814" FontSize="24" FontWeight="Bold" Click="BtnBydloPadlo_Click"/>
+        <Button x:Name="btnOwca" Content="OWCA" HorizontalAlignment="Left" Margin="383,208,0,0" VerticalAlignment="Top" Width="103" Height="99" Background="#FF59C814" FontSize="24" FontWeight="Bold" Click="BtnBydloPadlo_Click"/>
+        <Viewbox Margin="564,32,22,138.2" Grid.RowSpan="2" Stretch="Fill" Visibility="Visible"  Name="dane_zgloszenia">
+            <Grid Height="576" Width="684">
+                <Label x:Name="lblUzupelnij" Content="Uzupełnij dane zgłoszenia" HorizontalAlignment="Left" VerticalAlignment="Top" Height="38" Width="299" FontSize="22" FontWeight="Bold" Margin="245,0,0,0"/>
+                <Label x:Name="Imię_Nazwa" Content="Imię/Nazwa" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="0,62,0,0"/>
+                <Label x:Name="Nazwisko_Nazwa_" Content="Nazwisko/Nazwa" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="184,62,0,0"/>
+                <Label Content="Miejscowość" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="0,135,0,0"/>
+                <Label Content="Numer stada" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="369,62,0,0"/>
+                <Label Content="Ulica" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="184,135,0,0"/>
+                <Label Content="Nr posesji" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="360,135,0,0"/>
+                <Label Content="Kod pocztowy" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="506,135,0,0"/>
+                <Label Content="Poczta" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="506,213,0,0"/>
+                <Label Content="Liczba sztuk" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="-0.219,0.089" FontSize="16" Margin="221,492,0,0"/>
+                <Label Content="Numer kolczyka padłej sztuki" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="0,213,0,0"/>
+                <Label Content="Data urodzenia" HorizontalAlignment="Left" Margin="0,275,0,0" VerticalAlignment="Top" FontSize="16"/>
+                <Label Content="Data padnięcia" HorizontalAlignment="Left" Margin="0,348,0,0" VerticalAlignment="Top" FontSize="16"/>
+                <Label Content="Godzina padnięcia" HorizontalAlignment="Left" Margin="0,417,0,0" VerticalAlignment="Top" FontSize="16"/>
+                <TextBox x:Name="txtImie_nazwa" HorizontalAlignment="Left" Height="23" Margin="0,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150"/>
+                <TextBox x:Name="txtNazwisko_nazwa" HorizontalAlignment="Left" Height="23" Margin="184,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="159"/>
+                <TextBox x:Name="txtNumer_stada1" HorizontalAlignment="Left" Height="23" Margin="369,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="141"/>
+                <TextBox x:Name="txtLiczba_sztuk" HorizontalAlignment="Left" Height="23" Margin="225,523,0,-1" TextWrapping="Wrap" VerticalAlignment="Top" Width="81"/>
+                <TextBox x:Name="txtMiejscowosc" HorizontalAlignment="Left" Height="23" Margin="0,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150"/>
+                <TextBox x:Name="txtUlica" HorizontalAlignment="Left" Height="23" Margin="184,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="141"/>
+                <TextBox x:Name="txtNumer_posesji" HorizontalAlignment="Left" Height="23" Margin="360,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80"/>
+                <TextBox x:Name="txtKod_pocztowy" HorizontalAlignment="Left" Height="23" Margin="506,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78"/>
+                <TextBox x:Name="txtPoczta" HorizontalAlignment="Left" Height="23" Margin="506,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="129"/>
+                <TextBox x:Name="txtNumer_kolczyka" HorizontalAlignment="Left" Height="23" Margin="0,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150"/>
+                <TextBox x:Name="txtData_ur" HorizontalAlignment="Left" Height="23" Margin="0,307,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150"/>
+                <TextBox x:Name="txtData_pad" HorizontalAlignment="Left" Height="23" Margin="0,380,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150"/>
+                <TextBox x:Name="txtGodzina_pad" HorizontalAlignment="Left" Height="23" Margin="0,449,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150"/>
+                <Label Content="Rodzaj gospodarstwa" HorizontalAlignment="Left" Margin="0,492,0,0" VerticalAlignment="Top" FontSize="16"/>
+                <Label Content="Przyczyna" HorizontalAlignment="Left" Margin="184,348,0,0" VerticalAlignment="Top" FontSize="16"/>
+                <TextBox x:Name="txtOpis_pad" HorizontalAlignment="Left" Height="51" Margin="360,380,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="210"/>
+                <Label Content="Opis" HorizontalAlignment="Left" Margin="414,348,0,0" VerticalAlignment="Top" FontSize="16"/>
+                <CheckBox x:Name="chBoxUstalona" Content="Ustalona" HorizontalAlignment="Left" Margin="191,380,0,0" VerticalAlignment="Top"/>
+                <CheckBox x:Name="chBoxNieustalona" Content="Nieustalona" HorizontalAlignment="Left" Margin="191,415,0,0" VerticalAlignment="Top"/>
+                <CheckBox x:Name="chBoxMleczne" Content="Mleczne" HorizontalAlignment="Left" Margin="0,529,0,-0.4" VerticalAlignment="Top"/>
+                <CheckBox x:Name="chBoxOpasowe" Content="Opasowe" HorizontalAlignment="Left" Margin="105,529,0,-0.4" VerticalAlignment="Top"/>
+                <TextBox x:Name="txtNumer_lokalu" HorizontalAlignment="Left" Height="23" Margin="360,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80"/>
+                <Label Content="Nr lokalu" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="360,213,0,0"/>
+
+            </Grid>
+        </Viewbox>
+        <Button x:Name="brnZapisz_zgloszenie" Content="Zapisz zgłoszenie" HorizontalAlignment="Left" Margin="699,166.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="423" Height="48" Background="#FF3ED12E" FontSize="24" BorderBrush="#FF151313"/>
+
     </Grid>
+
 </Window>
