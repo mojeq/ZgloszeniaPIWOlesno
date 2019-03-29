@@ -61,7 +61,7 @@ namespace ZgłoszeniaPIWOlesno
                 SqlDataReader czytnik = komendaSQL.ExecuteReader(); // wykonanie zapytania do bazy
 
 
-                while (czytnik.Read()) //wyświetlenie danych gospodarstwa na ekranie
+                while (czytnik.Read()) //wyświetlenie danych gospodarstwa którego dotyczy zgłoszenie 
                 {
                     txtNazwisko_nazwa.Text = czytnik["NAZWISKO_LUB_NAZWA"].ToString();
                     txtImie_nazwa.Text = czytnik["IMIE_LUB_NAZWA_SKROCONA"].ToString();
@@ -76,7 +76,7 @@ namespace ZgłoszeniaPIWOlesno
                                         
                 }
                 czytnik.Close();
-                cs.GetDBConnection().Close();
+                cs.GetDBConnection().Close(); // zamykanie połączenia
 
 
             }
