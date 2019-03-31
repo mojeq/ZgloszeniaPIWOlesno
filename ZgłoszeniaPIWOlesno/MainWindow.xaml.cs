@@ -92,7 +92,57 @@ namespace ZgłoszeniaPIWOlesno
             }
         }
 
-        /// </summary>
+        private void DatePicker1_SelectedDateChanged(object sender, SelectionChangedEventArgs e) // Data picker - data urodzenia zwierzęcia
+        {
+            // ... Get DatePicker reference.
+            var picker = sender as DatePicker;
+
+            // ... Get nullable DateTime from SelectedDate.
+            DateTime? date = picker.SelectedDate;
+            if (date == null)
+            {
+                // ... A null object.
+                this.Title = "No date";
+            }
+            else
+            {
+                // ... No need to display the time.
+                this.Title = date.Value.ToShortDateString();
+                txtData_born.Text = this.Title;
+
+                //MessageBox.Show(DateBorn);
+            }
+        }
+        private void DatePicker2_SelectedDateChanged(object sender, SelectionChangedEventArgs e) // Data picker - data padnięcia zwierzęcia
+        {
+            // ... Get DatePicker reference.
+            var picker = sender as DatePicker;
+
+            // ... Get nullable DateTime from SelectedDate.
+            DateTime? date = picker.SelectedDate;
+            if (date == null)
+            {
+                // ... A null object.
+                this.Title = "No date";
+            }
+            else
+            {
+                // ... No need to display the time.
+                this.Title = date.Value.ToShortDateString();
+                txtData_dead.Text = this.Title;
+
+                //MessageBox.Show(DateBorn);
+            }
+        }
+
+        private void BrnZapisz_zgloszenie_Click(object sender, RoutedEventArgs e) //przycisk "Zapisz zgłoszenie"
+        {
+            string DateNotification = DateTime.Now.ToString("dd/MM/yyyy");
+            //MessageBox.Show(DateBorn.Text);
+
+        }
+
+           /// </summary>
         //koniec przycisku BYDŁO
     }
 }
