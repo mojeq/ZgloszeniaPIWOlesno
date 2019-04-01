@@ -10,5 +10,8 @@ Project is created with:
 * MSSQL 2017
 * MS Excel 2017
 
+## Status
+Project is progress and commercial using in veterinary inspection.
+
 ## Contact
 Created by [Piotr Moj](https://www.piwolesno.pl/) - feel free to contact me!
