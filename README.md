@@ -14,4 +14,4 @@ Project is created with:
 Project is progress and commercial using in veterinary inspection.
 
 ## Contact
-Created by [Piotr Moj](https://www.piwolesno.pl/) - feel free to contact me!
+Created by [Piotr Moj](https://www.piwolesno.pl/) - feel free to contact me if needed.
