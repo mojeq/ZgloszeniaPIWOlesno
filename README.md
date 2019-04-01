@@ -9,3 +9,6 @@ Project is created with:
 * WPF
 * MSSQL 2017
 * MS Excel 2017
+
+## Contact
+Created by [Piotr Moj](https://www.piwolesno.pl/) - feel free to contact me!
