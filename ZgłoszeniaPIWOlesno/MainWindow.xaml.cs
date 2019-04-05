@@ -23,64 +23,55 @@ namespace ZgłoszeniaPIWOlesno
     /// </summary>
     public partial class MainWindow : Window
     {
-
         public MainWindow()
         {
-       
-        InitializeComponent();
+            InitializeComponent();
         }
 
-
-        //przycisk BYDŁO, wpisujemy numer stada i klikamy przycisk BYDŁO
         /// <summary>    
-        
-        public void BtnBydloPadlo_Click(object sender, RoutedEventArgs e)
+        public void BtnBydlo_Click(object sender, RoutedEventArgs e)
         {
-
-
-            if (txtNumer_stada.Text.Length == 13)
+            if (txtFarmNumber.Text.Length == 13)
             {
-                string numer_stada = txtNumer_stada.Text;
-                MessageBox.Show(numer_stada);
+                string FarmNumber = txtFarmNumber.Text;
+                MessageBox.Show(FarmNumber);
 
-                dane_zgloszenia.Visibility = Visibility.Visible; //wyświetlenie na prawej stronie Uzupełnij dane zgłoszenia
-
+                NewNotification.Visibility = Visibility.Visible; //wyświetlenie na prawej stronie Uzupełnij dane zgłoszenia
                 //laczymy = baza.Connect1();
-
                 //łączenie z bazą
                 // Singleton.Instance.Connect(numer_stada);
                 Singleton cs = Singleton.Instance; //tworzymy instancję Singletona do połączenia z bazą banych
                 cs.GetDBConnection();
                 cs.GetDBConnection().Open();
 
-                SqlCommand komendaSQL = cs.GetDBConnection().CreateCommand();
+                SqlCommand CommandSQL = cs.GetDBConnection().CreateCommand();
 
-                komendaSQL.Parameters.Add("@stado", SqlDbType.VarChar).Value = numer_stada; //przypisane numeru stada w zapytaniu SQL
+                CommandSQL.Parameters.Add("@FarmNumber", SqlDbType.VarChar).Value = FarmNumber; //przypisane numeru stada(FarmNumber) w zapytaniu SQL
 
-                komendaSQL.CommandText = "SELECT * FROM BAZA_GOSPODARSTWA$ WHERE NR_STADA=@stado";
-                SqlDataReader czytnik = komendaSQL.ExecuteReader(); // wykonanie zapytania do bazy
+                CommandSQL.CommandText = "SELECT * FROM BAZA_GOSPODARSTWA$ WHERE NR_STADA=@FarmNumber";
+                SqlDataReader reader = CommandSQL.ExecuteReader(); // wykonanie zapytania do bazy
 
-
-                while (czytnik.Read()) //wyświetlenie danych gospodarstwa którego dotyczy zgłoszenie 
+                if (!reader.HasRows)
                 {
-                    txtNazwisko_nazwa.Text = czytnik["NAZWISKO_LUB_NAZWA"].ToString();
-                    txtImie_nazwa.Text = czytnik["IMIE_LUB_NAZWA_SKROCONA"].ToString();
-                    txtNumer_stada1.Text = czytnik["NR_STADA"].ToString();
-                    txtLiczba_sztuk.Text = czytnik["LICZBA_SZTUK"].ToString();
-                    txtMiejscowosc.Text = czytnik["MIEJSCOWOSC"].ToString();
-                    txtUlica.Text = czytnik["ULICA"].ToString();
-                    txtNumer_posesji.Text = czytnik["POSESJA"].ToString();
-                    txtNumer_lokalu.Text = czytnik["LOKAL"].ToString();
-                    txtKod_pocztowy.Text = czytnik["KOD_POCZTOWY"].ToString();
-                    txtPoczta.Text = czytnik["POCZTA"].ToString();
-                                        
-                }
-                czytnik.Close();
-                cs.GetDBConnection().Close(); // zamykanie połączenia
+                    MessageBox.Show("Nie ma takiego numeru w bazie, sprawdź wprowadzony numer lub wprowadź dane gospodarstwa ręcznie.");
+                } // sprawdzam czy znaleziono jakiś rekord w bazie
 
-
+                while (reader.Read())
+                {
+                    txtSurname.Text = reader["NAZWISKO_LUB_NAZWA"].ToString();
+                    txtName.Text = reader["IMIE_LUB_NAZWA_SKROCONA"].ToString();
+                    txtFarmNumberSaveNofification.Text = reader["NR_STADA"].ToString();
+                    txtHowManyAnimalsInFarm.Text = reader["LICZBA_SZTUK"].ToString();
+                    txtCity.Text = reader["MIEJSCOWOSC"].ToString();
+                    txtStreet.Text = reader["ULICA"].ToString();
+                    txtHouseNumber.Text = reader["POSESJA"].ToString();
+                    txtLocalNumber.Text = reader["LOKAL"].ToString();
+                    txtPostCode.Text = reader["KOD_POCZTOWY"].ToString();
+                    txtPost.Text = reader["POCZTA"].ToString();
+                }//wyświetlenie danych gospodarstwa którego dotyczy zgłoszenie 
+                reader.Close();
+                cs.GetDBConnection().Close(); // zamykanie połączenia        
             }
-
             else
             {
                 //gdy nymer stada wpisany ma niepoprawną długość
@@ -90,59 +81,77 @@ namespace ZgłoszeniaPIWOlesno
                 //Window1 wnd = new Window1();
                 //wnd.Show();
             }
-        }
+        }//przycisk BYDŁO, wpisujemy numer stada i klikamy przycisk BYDŁO
 
-        private void DatePicker1_SelectedDateChanged(object sender, SelectionChangedEventArgs e) // Data picker - data urodzenia zwierzęcia
+        private void DatePickerDateBornAnimal_SelectedDateChanged(object sender, SelectionChangedEventArgs e) // Data picker - data urodzenia zwierzęcia
         {
-            // ... Get DatePicker reference.
-            var picker = sender as DatePicker;
+            var picker = sender as DatePicker; // referencja Data picker
 
-            // ... Get nullable DateTime from SelectedDate.
-            DateTime? date = picker.SelectedDate;
+            DateTime? date = picker.SelectedDate; /// pozyskanie daty nullable z SelectedDate
             if (date == null)
             {
-                // ... A null object.
-                this.Title = "No date";
+                this.Title = "Brak daty";// gdy nie ma daty
             }
             else
             {
-                // ... No need to display the time.
-                this.Title = date.Value.ToShortDateString();
-                txtData_born.Text = this.Title;
-
-                //MessageBox.Show(DateBorn);
+                this.Title = date.Value.ToString("yyyy-MM-dd"); // konwersja daty na string
+                txtDateBorn.Text = this.Title; // zapis daty w boxie DataBorn
             }
         }
-        private void DatePicker2_SelectedDateChanged(object sender, SelectionChangedEventArgs e) // Data picker - data padnięcia zwierzęcia
+        private void DatePickerDateDeadAnimal_SelectedDateChanged(object sender, SelectionChangedEventArgs e) // Data picker - data padnięcia zwierzęcia
         {
-            // ... Get DatePicker reference.
-            var picker = sender as DatePicker;
+            var picker = sender as DatePicker; // referencja Data picker
 
-            // ... Get nullable DateTime from SelectedDate.
-            DateTime? date = picker.SelectedDate;
+            DateTime? date = picker.SelectedDate; /// pozyskanie daty nullable z SelectedDate
             if (date == null)
             {
-                // ... A null object.
-                this.Title = "No date";
+                this.Title = "Brak daty";// gdy nie ma daty
             }
             else
             {
-                // ... No need to display the time.
-                this.Title = date.Value.ToShortDateString();
-                txtData_dead.Text = this.Title;
-
-                //MessageBox.Show(DateBorn);
+                this.Title = date.Value.ToString("yyyy-MM-dd"); // konwersja daty na string
+                txtDateDead.Text = this.Title; // zapis daty w boxie DataDead(data padnięcia)
             }
         }
 
-        private void BrnZapisz_zgloszenie_Click(object sender, RoutedEventArgs e) //przycisk "Zapisz zgłoszenie"
+        private void btnSaveNewNotificationOfAnimalDead_Click(object sender, RoutedEventArgs e) //przycisk "Zapisz zgłoszenie"
+        {         
+            Singleton cs = Singleton.Instance; //tworzymy instancję Singletona do połączenia z bazą banych
+            cs.GetDBConnection();
+            cs.GetDBConnection().Open();
+            SqlCommand CommandSQL = cs.GetDBConnection().CreateCommand(); // tworzenie komendy SQl do bazy danych
+
+            string DateNewNotificationOfAnimalDead = DateTime.Now.ToString("yyyy-MM-dd"); // aktualna data - data zgłoszenia padnięcia  
+            string TimeNewNotificationOfAnimalDead = DateTime.Now.ToString("hh:mm"); // aktulna godzina - godzina zgłoszenia
+            string FarmNumber, DateBorn, HowManyAnimalsInFarm;
+            DataOfNewNotification(out FarmNumber, out DateBorn, out HowManyAnimalsInFarm);
+
+            ConvertDataToCommandSQL(CommandSQL, FarmNumber, DateBorn);
+
+            CommandSQL.CommandText = "INSERT INTO ZGLOSZENIA$(ID, NR_STADA, LICZBA_SZTUK, NR_KOLCZYKA, GATUNEK, PLEC, DATA_URODZENIA, DATA_PADNIECIA, GODZINA_PADNIECIA, PRZYCZYNA, OPIS_PRZYCZYNA, KTO_ODBIERA, OSOBA_ZGL, DATA_CZAS_ZGL) VALUES ('4', @FarmNumber, '23', '232222222001', '123', '123', @DateBorn, '2019-12-09', '1223', '1', 2, 23, 123, 444)";
+
+            SqlDataReader save = CommandSQL.ExecuteReader(); // wykonanie zapytania do bazy
+            cs.GetDBConnection().Close(); // zamykanie połączenia  
+                                 
+        }
+
+        private static void ConvertDataToCommandSQL(SqlCommand CommandSQL, string FarmNumber, string DateBorn) //konwersja zmiennych zawierających dane zgłoszenia do polecenia SQL
         {
-            string DateNotification = DateTime.Now.ToString("dd/MM/yyyy");
-            //MessageBox.Show(DateBorn.Text);
+            CommandSQL.Parameters.Add("@FarmNumber", SqlDbType.VarChar).Value = FarmNumber; 
+            CommandSQL.Parameters.Add("@DateBorn", SqlDbType.VarChar).Value = DateBorn; 
+        }
+
+        private void DataOfNewNotification(out string FarmNumber, out string DateBorn, out string HowManyAnimalsInFarm) //pobranie z formularza danych zgłoszenia do zmienych
+        {
+            HowManyAnimalsInFarm = txtHowManyAnimalsInFarm.Text;
+            FarmNumber = txtFarmNumber.Text;
+            DateBorn = txtDateBorn.Text;
 
         }
 
-           /// </summary>
+
+
+        /// </summary>
         //koniec przycisku BYDŁO
     }
 }

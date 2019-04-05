@@ -13,7 +13,7 @@ namespace ZgłoszeniaPIWOlesno
     {
         private static Singleton mInstance = null;
 
-        private readonly SqlConnection polaczenie2 = new SqlConnection(@"Data source=LAPTOP-6E2UURS8\INSERTGT;
+        private readonly SqlConnection connect = new SqlConnection(@"Data source=LAPTOP-6E2UURS8\INSERTGT;
                                                              database=BAZA_ARIMR;
                                                              User id=sa;
                                                              Password=alpinus1;");
@@ -72,7 +72,7 @@ namespace ZgłoszeniaPIWOlesno
         public SqlConnection GetDBConnection()
         {
             
-            return polaczenie2;
+            return connect;
 
         }
 
