@@ -19,6 +19,7 @@ namespace ZgłoszeniaPIWOlesno
                                                              Password=alpinus1;");
 
 
+
         public static Singleton Instance
         {
             get
