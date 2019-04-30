@@ -8,7 +8,8 @@ Database with all farms in opolskie area delivers ARiMR on .xls file.
 Project is created with:
 * WPF
 * MSSQL 2017
-* MS Excel 2017
+* MS Outlook
+* SharpPDF
 
 ## Status
 Project is progress and commercial using in veterinary inspection.
