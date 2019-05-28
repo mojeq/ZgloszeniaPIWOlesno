@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZgłoszeniaPIWOlesno"
         mc:Ignorable="d"
-        Title="PrintSendMail" Height="450" Width="800">
-    <Grid>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="334,305,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        Title="PrintSendMail" Height="250" Width="800">
+    <Grid Margin="0,0,-0.4,-5">
+        <Button x:Name="btnGenerateAttachment" Content="Zapisz załączniki" HorizontalAlignment="Left" Margin="124,42,0,0" VerticalAlignment="Top" Width="230" Click="btnGenerateAttachment_Click" Height="48" Background="#FF3ED12E" FontSize="18" FontFamily="Arial"/>
+        <Button x:Name="btnSendMail" Content="Wyślij maile" HorizontalAlignment="Left" Margin="468,42,0,0" VerticalAlignment="Top" Width="213" Click="btnSendMail_Click" Height="48" FontSize="18" Background="#FF3ED12E" FontFamily="Arial"/>
 
     </Grid>
 </Window>

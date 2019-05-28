@@ -1,0 +1,36 @@
+﻿USE [BAZA_ARIMR]
+GO
+
+/****** Object: Table [dbo].[ZGLOSZENIA$] Script Date: 28.05.2019 08:40:09 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+DROP TABLE [dbo].[ZGLOSZENIA$];
+
+
+GO
+CREATE TABLE [dbo].[ZGLOSZENIA$] (
+    [ID]                INT           IDENTITY (1, 1) NOT NULL,
+    [NR_STADA]          VARCHAR (13)  NOT NULL,
+	[TYP_STADA]         Varchar(7)    NOT NULL,  
+    [LICZBA_SZTUK]      FLOAT (53)    NOT NULL,
+    [NR_KOLCZYKA]       VARCHAR (14)  NOT NULL,
+    [GATUNEK]           VARCHAR (15)  NOT NULL,
+    [PLEC]              VARCHAR (15)  NOT NULL,
+    [DATA_URODZENIA]    DATE          NOT NULL,
+    [DATA_PADNIECIA]    DATE          NOT NULL,
+    [GODZINA_PADNIECIA] VARCHAR (13)  NULL,
+    [PRZYCZYNA]         VARCHAR (15)  NOT NULL,
+    [OPIS_PRZYCZYNA]    VARCHAR (100) NULL,
+    [KTO_ODBIERA]       VARCHAR (15)  NOT NULL,
+    [OSOBA_ZGL]         VARCHAR (40)  NOT NULL,
+    [ADRES_OSOBY_ZGL]   VARCHAR (150) NOT NULL,
+    [TEL_OSOBY_ZGL]     VARCHAR (9)   NULL,
+    [DATA_CZAS_ZGL]     CHAR (16)     NOT NULL,
+    [KTO_PRZYJMUJE_ZGL] VARCHAR (25)  NOT NULL
+);
+
+
