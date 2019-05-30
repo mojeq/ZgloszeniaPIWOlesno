@@ -6,6 +6,7 @@ Database with all farms in opolskie area delivers ARiMR on .xls file.
 
 ## Technologies
 Project is created with:
+* .NET Framework 4
 * WPF
 * MSSQL 2017
 * MS Outlook
