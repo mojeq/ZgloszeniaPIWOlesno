@@ -9,7 +9,8 @@ Project is created with:
 * WPF
 * MSSQL 2017
 * MS Outlook
-* SharpPDF
+* iTextSharp
+* NodaTime
 
 ## Status
 Project is progress and commercial using in veterinary inspection.
