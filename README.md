@@ -9,9 +9,11 @@ Project is created with:
 * .NET Framework 4
 * WPF
 * MSSQL 2017
+* SQL
 * MS Outlook
 * iTextSharp
 * NodaTime
+* Singleton
 
 ## Status
 Project is progress and commercial using in veterinary inspection.
