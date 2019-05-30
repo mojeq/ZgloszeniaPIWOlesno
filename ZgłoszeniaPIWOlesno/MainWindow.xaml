@@ -1,6 +1,6 @@
 ﻿<Window x:Class="ZgłoszeniaPIWOlesno.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"       
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZgłoszeniaPIWOlesno"
@@ -16,12 +16,17 @@
             <RowDefinition Height="436.8"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+
         <Button x:Name="btnSzukaj" Content="SZUKAJ GOSPODARSTWA" HorizontalAlignment="Left" Margin="98,370,0,0" VerticalAlignment="Top" Width="388" Height="83" Background="#FF59C814" FontSize="24" Click="BtnSzukaj_Click" Grid.RowSpan="2"/>
         <Label Content="Nowe zgłoszenie padnięcia" HorizontalAlignment="Left" Margin="143,32,0,0" VerticalAlignment="Top" Height="38" Width="354" FontSize="22" FontWeight="Bold"/>
         <TextBox x:Name="txtFarmNumber" HorizontalAlignment="Left" Height="50" Margin="98,205,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="388" BorderBrush="#FF36AE10" FontSize="36" UndoLimit="13"/>
         <Label Content="Wpisz numer gospodarstwa" HorizontalAlignment="Left" Margin="98,174,0,0" VerticalAlignment="Top" Height="26" Width="244"/>
         <Viewbox Margin="564,32,22,138.2" Grid.RowSpan="2" Stretch="Fill" Visibility="Visible"  Name="NewNotification" Grid.ColumnSpan="2">
             <Grid  Width="684">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="401*"/>
+                    <RowDefinition Height="206*"/>
+                </Grid.RowDefinitions>
                 <Label x:Name="lblUzupelnij" Content="Uzupełnij dane zgłoszenia" HorizontalAlignment="Left" VerticalAlignment="Top" Height="38" Width="299" FontSize="22" FontWeight="Bold" Margin="245,0,0,0"/>
                 <Label x:Name="Imię_Nazwa" Content="Imię/Nazwa" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="0,62,0,0"/>
                 <Label x:Name="Nazwisko_Nazwa_" Content="Nazwisko/Nazwa" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="184,62,0,0"/>
@@ -31,7 +36,7 @@
                 <Label Content="Nr posesji" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="360,135,0,0"/>
                 <Label Content="Kod pocztowy" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="0,213,0,0"/>
                 <Label Content="Poczta" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="128,213,0,0"/>
-                <Label Content="Liczba sztuk" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="-0.219,0.089" FontSize="16" Margin="319,423,0,0"/>
+                <Label Content="Liczba sztuk" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="-0.219,0.089" FontSize="16" Margin="319,22.295,0,0" Grid.Row="1"/>
                 <Label Content="Numer kolczyka" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="284,215,0,0"/>
                 <Label Content="Data urodzenia" HorizontalAlignment="Left" Margin="0,289,0,0" VerticalAlignment="Top" FontSize="16"/>
                 <Label Content="Data padnięcia" HorizontalAlignment="Left" Margin="136,288,0,0" VerticalAlignment="Top" FontSize="16"/>
@@ -39,7 +44,7 @@
                 <TextBox x:Name="txtName" HorizontalAlignment="Left" Height="23" Margin="0,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" FontSize="16"/>
                 <TextBox x:Name="txtSurname" HorizontalAlignment="Left" Height="23" Margin="184,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="159" FontSize="16"/>
                 <TextBox x:Name="txtFarmNumberSaveNofification" HorizontalAlignment="Left" Height="23" Margin="369,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="141"/>
-                <TextBox x:Name="txtHowManyAnimalsInFarm" HorizontalAlignment="Left" Height="23" Margin="323,454,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="81" FontSize="16"/>
+                <TextBox x:Name="txtHowManyAnimalsInFarm" HorizontalAlignment="Left" Height="23" Margin="323,53.295,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="81" FontSize="16" Grid.Row="1"/>
                 <TextBox x:Name="txtCity" HorizontalAlignment="Left" Height="23" Margin="0,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" FontSize="16"/>
                 <TextBox x:Name="txtStreet" HorizontalAlignment="Left" Height="23" Margin="184,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="141" FontSize="16"/>
                 <TextBox x:Name="txtHouseNumber" HorizontalAlignment="Left" Height="23" Margin="360,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" FontSize="16"/>
@@ -48,10 +53,10 @@
                 <TextBox x:Name="txtEarTagNumber" HorizontalAlignment="Left" Height="23" Margin="284,247,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" FontSize="16"/>
                 <TextBox x:Name="txtDateDead" HorizontalAlignment="Left" Height="23" Margin="136,356,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="104" FontSize="16"/>
                 <TextBox x:Name="txtHourOfDeadAnimal" HorizontalAlignment="Left" Height="23" Margin="269,356,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="128" FontSize="16"/>
-                <Label Content="Rodzaj gospodarstwa" HorizontalAlignment="Left" Margin="0,423,0,0" VerticalAlignment="Top" FontSize="16"/>
+                <Label Content="Rodzaj gospodarstwa" HorizontalAlignment="Left" Margin="0,22.295,0,0" VerticalAlignment="Top" FontSize="16" Grid.Row="1"/>
                 <Label Content="Przyczyna" HorizontalAlignment="Left" Margin="470,323,0,0" VerticalAlignment="Top" FontSize="16"/>
-                <TextBox x:Name="txtWhyDead" HorizontalAlignment="Left" Height="51" Margin="428,424,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="210" FontSize="14"/>
-                <Label Content="Opis" HorizontalAlignment="Left" Margin="428,392,0,0" VerticalAlignment="Top" FontSize="16"/>
+                <TextBox x:Name="txtWhyDead" HorizontalAlignment="Left" Height="51" Margin="428,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="210" FontSize="14" Grid.Row="1"/>
+                <Label Content="Opis" HorizontalAlignment="Left" Margin="428,3,0,0" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="0.559,-0.168" Grid.Row="1"/>
                 <!--<CheckBox x:Name="chBoxMleczne" Content="Mleczne" HorizontalAlignment="Left" Margin="0,460,0,0" VerticalAlignment="Top" Checked="ChBoxMleczne_Checked"/>
                 <CheckBox x:Name="chBoxOpasowe" Content="Opasowe" HorizontalAlignment="Right" Margin="0,460,535,0" VerticalAlignment="Top" Checked="ChBoxOpasowe_Checked"/>-->
                 <TextBox x:Name="txtLocalNumber" HorizontalAlignment="Left" Height="23" Margin="464,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" FontSize="16"/>
@@ -59,19 +64,19 @@
                 <DatePicker x:Name="DateBorn" HorizontalAlignment="Left" Margin="0,321,0,0" VerticalAlignment="Top" SelectedDateChanged="DatePickerDateBornAnimal_SelectedDateChanged"/>
                 <DatePicker x:Name="DateDead" HorizontalAlignment="Left" Margin="136,320,0,0" VerticalAlignment="Top" SelectedDateChanged="DatePickerDateDeadAnimal_SelectedDateChanged"/>
                 <TextBox x:Name="txtDateBorn" HorizontalAlignment="Left" Height="23" Margin="0,357,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="104" FontSize="16"/>
-                <Label Content="Odbiór" HorizontalAlignment="Left" Margin="190,424,0,0" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="3.943,-0.991"/>
-                <Label Content="Osoba zgłaszająca" HorizontalAlignment="Left" Margin="10,495,0,0" VerticalAlignment="Top" Height="28" Width="121"/>
-                <TextBox x:Name="txtWhoReportingNewNotification" HorizontalAlignment="Left" Height="23" Margin="0,523,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="16"/>
-                <Label Content="Adres osoby zgłaszającej" HorizontalAlignment="Left" Margin="153,495,0,0" VerticalAlignment="Top" Height="28" Width="149"/>
-                <TextBox x:Name="txtAddressPersonReporting" HorizontalAlignment="Left" Height="23" Margin="154,523,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="336" FontSize="16"/>
-                <Label Content="Numer telefonu" HorizontalAlignment="Left" Margin="517,495,0,0" VerticalAlignment="Top" Height="28" Width="121"/>
-                <TextBox x:Name="txtPhonePersonReporting" HorizontalAlignment="Left" Height="23" Margin="518,521,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="16"/>
+                <Label Content="Odbiór" HorizontalAlignment="Left" Margin="190,23.295,0,0" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="3.943,-0.991" Grid.Row="1"/>
+                <Label Content="Osoba zgłaszająca" HorizontalAlignment="Left" Margin="10,94.295,0,0" VerticalAlignment="Top" Height="28" Width="121" Grid.Row="1"/>
+                <TextBox x:Name="txtWhoReportingNewNotification" HorizontalAlignment="Left" Height="23" Margin="0,122.295,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="16" Grid.Row="1"/>
+                <Label Content="Adres osoby zgłaszającej" HorizontalAlignment="Left" Margin="153,94.295,0,0" VerticalAlignment="Top" Height="28" Width="149" Grid.Row="1"/>
+                <TextBox x:Name="txtAddressPersonReporting" HorizontalAlignment="Left" Height="23" Margin="154,122.295,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="336" FontSize="16" Grid.Row="1"/>
+                <Label Content="Numer telefonu" HorizontalAlignment="Left" Margin="517,94.295,0,0" VerticalAlignment="Top" Height="28" Width="121" Grid.Row="1"/>
+                <TextBox x:Name="txtPhonePersonReporting" HorizontalAlignment="Left" Height="23" Margin="518,120.295,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="16" Grid.Row="1"/>
                 <Label Content="Płeć zwierzęcia" HorizontalAlignment="Left" Margin="470,213,0,0" VerticalAlignment="Top" FontSize="16"/>
                 <ComboBox x:Name="comboBox_GenderOfDeadAnimal" VerticalAlignment="Top" Width="154" Height="27" FontSize="16" SelectedIndex="0" Margin="464,245,66,0">
                     <ComboBoxItem Content="samica"/>
                     <ComboBoxItem Content="samiec"/>
                 </ComboBox>
-                <ComboBox x:Name="comboBox_TypeOfFarm" VerticalAlignment="Top" Width="154" Height="27" FontSize="16" SelectedIndex="0" Margin="0,453,530,0">
+                <ComboBox x:Name="comboBox_TypeOfFarm" VerticalAlignment="Top" Width="154" Height="27" FontSize="16" SelectedIndex="0" Margin="0,52.295,530,0" Grid.Row="1">
                     <ComboBoxItem Content="mleczne"/>
                     <ComboBoxItem Content="opasowe"/>
                     <ComboBoxItem Content="inne"/>
@@ -80,12 +85,12 @@
                     <ComboBoxItem Content="nieustalona"/>
                     <ComboBoxItem Content="ustalona"/>
                 </ComboBox>
-                <ComboBox x:Name="comboBox_UtilizationCompany" VerticalAlignment="Top" Height="27" FontSize="16" SelectedIndex="0" Margin="184,452,382,0">
+                <ComboBox x:Name="comboBox_UtilizationCompany" VerticalAlignment="Top" Height="27" FontSize="16" SelectedIndex="0" Margin="184,51.295,382,0" Grid.Row="1">
                     <ComboBoxItem Content="Jasta"/>
                     <ComboBoxItem Content="Farmutil"/>
                 </ComboBox>
-                <TextBox x:Name="txtComment" HorizontalAlignment="Left" Height="23" Margin="0,583,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="638" FontSize="16"/>
-                <Label Content="Dodatkowe uwagi:" HorizontalAlignment="Left" Margin="10,551,0,0" VerticalAlignment="Top" Height="28" Width="121"/>
+                <TextBox x:Name="txtComment" HorizontalAlignment="Left" Height="23" Margin="0,182.295,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="638" FontSize="16" Grid.Row="1"/>
+                <Label Content="Dodatkowe uwagi:" HorizontalAlignment="Left" Margin="10,150.295,0,0" VerticalAlignment="Top" Height="28" Width="121" Grid.Row="1"/>
                 <!--<CheckBox x:Name="chBoxMale" Content="Samiec" HorizontalAlignment="Left" Margin="455,244,0,0" VerticalAlignment="Top" Checked="ChBoxMale_Checked"/>
                 <CheckBox x:Name="chBoxFemale" Content="Samica" HorizontalAlignment="Left" Margin="550,244,0,0" VerticalAlignment="Top" Checked="ChBoxFemale_Checked"/>-->
 

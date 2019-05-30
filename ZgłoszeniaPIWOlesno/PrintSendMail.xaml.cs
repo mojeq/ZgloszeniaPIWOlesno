@@ -23,6 +23,9 @@ using Paragraph = iTextSharp.text.Paragraph;
 using Rectangle = iTextSharp.text.Rectangle;
 using System.Diagnostics;
 using System.ComponentModel;
+using NodaTime;
+using System.Globalization;
+using NodaTime.Text;
 
 namespace ZgłoszeniaPIWOlesno
 {
@@ -42,7 +45,7 @@ namespace ZgłoszeniaPIWOlesno
         private void btnGenerateAttachment_Click(object sender, RoutedEventArgs e)
         {           
             string OfficialPositionWhoGetNewNotification;
-            OfficialPosition(out OfficialPositionWhoGetNewNotification);//TODO: dokończyć przypisanie stanowisk 
+            OfficialPosition(out OfficialPositionWhoGetNewNotification); 
             
             System.IO.FileStream fs = new FileStream("PDF/" + mainWindow.txtFarmNumber.Text + ".pdf", FileMode.Create);
             // Create an instance of the document class which represents the PDF document itself.  
@@ -77,7 +80,7 @@ namespace ZgłoszeniaPIWOlesno
             table.AddCell(cell);
 
             table.AddCell(new Phrase("Numer zgłoszenia", polskie_znaki));
-            table.AddCell("1608/"++"/2019");
+            table.AddCell("1608//2019");
             table.AddCell(new Phrase("Data i godzina przyjęcia zgłoszenia", polskie_znaki));            
             table.AddCell(mainWindow.txtDateAndTimeNewNotificationOfAnimalDead.Text);
             table.AddCell(new Phrase("Powiatowy Inspektorat Weterynarii w ", polskie_znaki));
@@ -153,6 +156,12 @@ namespace ZgłoszeniaPIWOlesno
             table.AddCell(new Phrase("Dodatkowe uwagi", polskie_znaki));
             table.AddCell(new Phrase(mainWindow.txtComment.Text, polskie_znaki));
 
+            PdfPCell cell7 = new PdfPCell(new Phrase("Osoba przyjmująca zgłoszenie: \n "+ mainWindow.comboBox_WhoGetGetNotification.Text, polskie_znaki));
+            cell7.Colspan = 2;
+            cell7.Border = 0;
+            cell7.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
+            table.AddCell(cell7);
+
             document.Add(table);
             // Close the document  
             document.Close();
@@ -161,6 +170,56 @@ namespace ZgłoszeniaPIWOlesno
             // Always close open filehandles explicity  
             fs.Close();
             //Process.Start("C:test.pdf");
+            int HowManyMonthsAnimalLive;
+            CalculateHowOldIsDeadAnimal(out HowManyMonthsAnimalLive);
+            MessageBox.Show(mainWindow.txtTypeOfDeadAnimal.Text);
+
+            if (HowManyMonthsAnimalLive >= 48 && mainWindow.txtTypeOfDeadAnimal.Text == "bydlo")
+            {
+                MessageBox.Show("Generujemy również załącznik nr 6");
+            }
+            else
+            {
+                MessageBox.Show("Za młoda sztuka");
+            }
+            //{
+            //    BSE = true;
+            //}
+            //else if(Age > 18 && mainWindow.txtTypeOfDeadAnimal.Text == "owca")
+            //{
+            //    BSE = true;
+            //}
+        }
+
+        private void CalculateHowOldIsDeadAnimal(out int HowManyMonthsAnimalLive)
+        {
+            //ToDo: obliczanie wieku padłych zwierząt
+            DateTime DateDead = DateTime.Parse(mainWindow.DateDead.Text);
+            DateTime DateBorn = DateTime.Parse(mainWindow.DateBorn.Text);
+
+            string tempYearBorn = DateBorn.ToString("yyyy");
+            string tempMonthBorn = DateBorn.ToString("MM");
+            string tempDayBorn = DateBorn.ToString("dd");
+            int YearBorn = System.Convert.ToInt16(tempYearBorn);
+            int MonthBorn = System.Convert.ToInt16(tempMonthBorn);
+            int DayBorn = System.Convert.ToInt16(tempDayBorn);
+
+            string tempYearDead = DateDead.ToString("yyyy");
+            string tempMonthDead = DateDead.ToString("MM");
+            string tempDayDead = DateDead.ToString("dd");
+            int YearDead = System.Convert.ToInt16(tempYearDead);
+            int MonthDead = System.Convert.ToInt16(tempMonthDead);
+            int DayDead = System.Convert.ToInt16(tempDayDead);
+
+            LocalDate WhenAnimalBorn = new LocalDate(YearBorn, MonthBorn, DayBorn);
+            LocalDate WhenAnimalDead = new LocalDate(YearDead, MonthDead, DayDead);
+
+            Period tempMonths = Period.Between(WhenAnimalBorn, WhenAnimalDead, PeriodUnits.Months);
+            HowManyMonthsAnimalLive = tempMonths.Months;
+            string tempHowManyMonthsAnimalLive = HowManyMonthsAnimalLive.ToString();
+
+
+            MessageBox.Show(tempHowManyMonthsAnimalLive);
         }
 
         private void OfficialPosition(out string OfficialPositionWhoGetNewNotification)
