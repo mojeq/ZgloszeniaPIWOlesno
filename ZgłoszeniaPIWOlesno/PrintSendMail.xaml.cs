@@ -28,6 +28,7 @@ using System.Globalization;
 using NodaTime.Text;
 using System.Data.SqlClient;
 using System.Data;
+using System.Net.Mail;
 
 namespace ZgłoszeniaPIWOlesno
 {
@@ -43,37 +44,75 @@ namespace ZgłoszeniaPIWOlesno
             mainWindow = mainWin;
             InitializeComponent();
         }
-
+        static string SavingDateTime = DateTime.Now.ToString("yyyy-MM-dd-hh-mm");
         private void btnGenerateAttachment_Click(object sender, RoutedEventArgs e)
         {
-            int NumerLastNotification = CheckNumberLastNotification();
-            string numerLastNotification = NumerLastNotification.ToString();
-            MessageBox.Show(numerLastNotification);
+            
+            int NumberLastNotification = CheckNumberLastNotification();
+            string numberLastNotification = NumberLastNotification.ToString();
+            //MessageBox.Show(numberLastNotification);
 
 
             string OfficialPositionWhoGetNewNotification;
             OfficialPosition(out OfficialPositionWhoGetNewNotification);
 
-            CreateAttachmentNr7(OfficialPositionWhoGetNewNotification);
-            bool BSE;
-            int HowManyMonthsAnimalLive;
-            CalculateHowOldIsDeadAnimal(out HowManyMonthsAnimalLive);
+            
+            int wiek;
+             
+            CalculateHowOldIsDeadAnimal(out int HowManyMonthsAnimalLive);
+            wiek = HowManyMonthsAnimalLive;
+            CreateAttachmentNr7(OfficialPositionWhoGetNewNotification, numberLastNotification, SavingDateTime, HowManyMonthsAnimalLive);
+            CreateAttachments(HowManyMonthsAnimalLive, OfficialPositionWhoGetNewNotification, numberLastNotification);
+        }
 
+        private void CreateAttachments(int HowManyMonthsAnimalLive, string OfficialPositionWhoGetNewNotification, 
+            string numberLastNotification) // w zależności od wieku padłego zwierzęcia generowane są inne załączniki
+            {
             if (HowManyMonthsAnimalLive >= 48 && mainWindow.txtTypeOfDeadAnimal.Text == "bydlo")
             {
-                CreateAttachmentNr6(OfficialPositionWhoGetNewNotification, HowManyMonthsAnimalLive, numerLastNotification);
+                CreateAttachmentNr6(OfficialPositionWhoGetNewNotification, HowManyMonthsAnimalLive, numberLastNotification);
+                CreateMailWithAttachmentNr6(OfficialPositionWhoGetNewNotification, HowManyMonthsAnimalLive, numberLastNotification);
             }
             else if (HowManyMonthsAnimalLive >= 18 && mainWindow.txtTypeOfDeadAnimal.Text == "koza")
             {
-                CreateAttachmentNr6(OfficialPositionWhoGetNewNotification, HowManyMonthsAnimalLive, numerLastNotification);
+                CreateAttachmentNr6(OfficialPositionWhoGetNewNotification, HowManyMonthsAnimalLive, numberLastNotification);
+                CreateMailWithAttachmentNr6(OfficialPositionWhoGetNewNotification, HowManyMonthsAnimalLive, numberLastNotification);
             }
             else if (HowManyMonthsAnimalLive >= 18 && mainWindow.txtTypeOfDeadAnimal.Text == "owca")
             {
-                CreateAttachmentNr6(OfficialPositionWhoGetNewNotification, HowManyMonthsAnimalLive, numerLastNotification);
-                BSE = true;
+                CreateAttachmentNr6(OfficialPositionWhoGetNewNotification, HowManyMonthsAnimalLive, numberLastNotification);
+                CreateMailWithAttachmentNr6(OfficialPositionWhoGetNewNotification, HowManyMonthsAnimalLive, numberLastNotification);
             }
         }
 
+        private void CreateMailWithAttachmentNr6(string officialPositionWhoGetNewNotification, int howManyMonthsAnimalLive, string numberLastNotification)
+        {
+            System.Diagnostics.Process[] processes = System.Diagnostics.Process.GetProcessesByName("OUTLOOK");
+            int collCount = processes.Length;
+
+            if (collCount != 0)
+            {
+                Microsoft.Office.Interop.Outlook.Application oApp = Marshal.GetActiveObject("Outlook.Application") as Microsoft.Office.Interop.Outlook.Application;
+                Microsoft.Office.Interop.Outlook.MailItem mailItem = (Microsoft.Office.Interop.Outlook.MailItem)oApp.CreateItem(Microsoft.Office.Interop.Outlook.OlItemType.olMailItem);
+                mailItem.Subject = "PIW Olesno - zgłoszenia padniecia numer " + numberLastNotification + ".";
+                mailItem.To = "wlodara@wiw.opole.pl";
+                mailItem.CC = "farmutil@farmutil.pl";
+                mailItem.Body = "Zgłoszenie padnięcia. \nPIW Olesno\n" + officialPositionWhoGetNewNotification+"\n"+ mainWindow.comboBox_WhoGetGetNotification.Text;
+
+
+                Microsoft.Office.Interop.Outlook.Attachments mailAttachments = mailItem.Attachments;
+                Microsoft.Office.Interop.Outlook.Attachment newAttachment = mailAttachments.Add(
+                @"C:\Users\mojeq\source\repos\ZgłoszeniaPIWOlesno\ZgłoszeniaPIWOlesno\bin\Debug\PDFy\" + mainWindow.txtFarmNumber.Text + "-zal6-" + SavingDateTime + ".pdf",
+                Microsoft.Office.Interop.Outlook.OlAttachmentType.olByValue, 1, "The test attachment");
+                mailItem.Save();
+                mailItem.Importance = Microsoft.Office.Interop.Outlook.OlImportance.olImportanceNormal;
+                mailItem.Display(false);
+                mailItem = null;
+                oApp = null;
+                MessageBox.Show("Utworzono wiadomość z załącznikiem nr 6.");
+
+            }
+        }
         private int CheckNumberLastNotification() // uzyskujemy numer ostatniego padnięcia w powiecie
         {
 
@@ -95,15 +134,14 @@ namespace ZgłoszeniaPIWOlesno
 
         }
 
-            private void CreateAttachmentNr7(string OfficialPositionWhoGetNewNotification) //tworzymy załącznik numer 7
+        
+        private void CreateAttachmentNr7(string OfficialPositionWhoGetNewNotification, string numberLastNotification, string SavingDateTime, int HowManyMonthsAnimalLive) //tworzymy załącznik numer 7
         {
-            string SavingDateTime = DateTime.Now.ToString("yyyy-MM-dd-hh-mm");
+            
             System.IO.FileStream fs = new FileStream("PDFy/" + mainWindow.txtFarmNumber.Text+"-zal7-"+ SavingDateTime + ".pdf", FileMode.Create);
-            // Create an instance of the document class which represents the PDF document itself.  
-            Document document = new Document(PageSize.A4, 25, 25, 30, 30);
-            // Create an instance to the PDF file by creating an instance of the PDF   
-            // Writer class using the document and the filestrem in the constructor.  
-
+            // tworzymy instancje klasy dokumentu pdf z wymiarem A4  
+            Document document = new Document(PageSize.A4, 25, 25, 30, 30);        
+            // klasa writer używająca dokument i strumienia w konstruktorze
             PdfWriter writer = PdfWriter.GetInstance(document, fs);
 
             // Add meta information to the document  
@@ -113,25 +151,21 @@ namespace ZgłoszeniaPIWOlesno
             document.AddSubject("Document subject - Describing the steps creating a PDF document");
             document.AddTitle("The document title - PDF creation using iTextSharp");
 
-            // Open the document to enable you to write to the document  
+            // otwórz dokument 
             document.Open();
-            // Add a simple and wellknown phrase to the document in a flow layout manner  
+            // dodajemy zawartość 
             FontFactory.RegisterDirectory("C:WINDOWSFonts"); //dodajemy polskie znaki
             var polskie_znaki = FontFactory.GetFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-
-            //document.Add(new Paragraph("Rejestr zgłoszeń padłego bydła - załącznik 7", polskie_znaki));
+ 
             PdfPTable table = new PdfPTable(2);
             PdfPCell cell = new PdfPCell(new Phrase("Rejestr zgłoszeń padłego bydła - załącznik 7\n ", polskie_znaki));
 
             cell.Colspan = 2;
             cell.Border = 0;
-
             cell.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-
             table.AddCell(cell);
-
             table.AddCell(new Phrase("Numer zgłoszenia", polskie_znaki));
-            table.AddCell("1608//2019");
+            table.AddCell("1608/"+ numberLastNotification+"/2019");
             table.AddCell(new Phrase("Data i godzina przyjęcia zgłoszenia", polskie_znaki));
             table.AddCell(mainWindow.txtDateAndTimeNewNotificationOfAnimalDead.Text);
             table.AddCell(new Phrase("Powiatowy Inspektorat Weterynarii w ", polskie_znaki));
@@ -195,7 +229,7 @@ namespace ZgłoszeniaPIWOlesno
             table.AddCell(new Phrase("nr kolczyka zwierzęcia", polskie_znaki));
             table.AddCell(new Phrase(mainWindow.txtFarmNumber.Text, polskie_znaki));
             table.AddCell(new Phrase("data urodzenia i wiek", polskie_znaki));
-            table.AddCell(new Phrase(mainWindow.txtDateBorn.Text, polskie_znaki));
+            table.AddCell(new Phrase(mainWindow.txtDateBorn.Text + " wiek: " + HowManyMonthsAnimalLive + "miesięcy", polskie_znaki));
             table.AddCell(new Phrase("płeć", polskie_znaki));
             table.AddCell(new Phrase(mainWindow.comboBox_GenderOfDeadAnimal.Text, polskie_znaki));
             table.AddCell(new Phrase("Data i godzina padnięcia", polskie_znaki));
@@ -214,41 +248,41 @@ namespace ZgłoszeniaPIWOlesno
             table.AddCell(cell7);
 
             document.Add(table);
-            // Close the document  
+            // zamknij dokument 
             document.Close();
-            // Close the writer instance  
+            // zamknij writer 
             writer.Close();
-            // Always close open filehandles explicity  
+            // zakmnij obsługiwane pliki
             fs.Close();
-            //Process.Start("C:test.pdf");
+           
             funckcja();
             void funckcja()
             {
-                MessageBox.Show("powinien zapisac");
+                MessageBox.Show("Załącznik/i zapisano, wyślij maile jeśli są wymagane.");
             }
         }
-
-        //ToDo: zrób załącznik nr 6
-        private void CreateAttachmentNr6(string OfficialPositionWhoGetNewNotification, int HowManyMonthsAnimalLive, string numerLastNotification) // tworzymy załącznik nr 6 w pdfie
+        //todo:potwierdzenie dotarcia i potwierdzenia pobrania dodać na spodzie załącznika     
+        private void CreateAttachmentNr6(string OfficialPositionWhoGetNewNotification, int HowManyMonthsAnimalLive, 
+            string numerLastNotification) // tworzymy załącznik nr 6 w pdfie
         {
             checkBseOrTseTest(out string testType);
             string SavingDateTime = DateTime.Now.ToString("yyyy-MM-dd-hh-mm");
             System.IO.FileStream fs = new FileStream("PDFy/" + mainWindow.txtFarmNumber.Text +"-zal6-"+SavingDateTime+".pdf", FileMode.Create);
-            // Create an instance of the document class which represents the PDF document itself.  
+            // tworzymy instancje klasy dokumentu pdf z wymiarem A4  
             Document document = new Document(PageSize.A4, 25, 25, 30, 30);
+            // klasa writer używająca dokument i strumienia w konstruktorze
             PdfWriter writer = PdfWriter.GetInstance(document, fs);
 
-            // Add meta information to the document  
+            // meta informacje o dokumencie
             document.AddAuthor(OfficialPositionWhoGetNewNotification);
             document.AddTitle("Rejestr zgłoszeń padłego bydła - załącznik 6");
 
-            // Open the document to enable you to write to the document  
+            // otwieramy dokument aby dodac do niego zawartość
             document.Open();
-            // Add a simple and wellknown phrase to the document in a flow layout manner  
+            // dodajemy zawartość 
             FontFactory.RegisterDirectory("C:WINDOWSFonts"); //dodajemy polskie znaki
             var polskie_znaki = FontFactory.GetFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
 
-            //document.Add(new Paragraph("Rejestr zgłoszeń padłego bydła - załącznik 7", polskie_znaki));
             PdfPTable table = new PdfPTable(2);
             PdfPCell cell = new PdfPCell(new Phrase("Rejestr zgłoszeń padłego bydła - załącznik 6     Olesno "+DateTime.Now.ToString("yyyy-MM-dd")+"\n ", polskie_znaki));
             cell.Colspan = 2;
@@ -283,7 +317,7 @@ namespace ZgłoszeniaPIWOlesno
             table.AddCell("1608/"+numerLastNotification+"/2019");
 
             table.AddCell(new Phrase("Numer kolczyka", polskie_znaki));
-            table.AddCell(mainWindow.txtFarmNumber.Text);
+            table.AddCell(mainWindow.txtEarTagNumber.Text);
 
             table.AddCell(new Phrase("data urodzenia i wiek", polskie_znaki));
             table.AddCell(new Phrase(mainWindow.txtDateBorn.Text+" wiek: "+HowManyMonthsAnimalLive+"miesięcy" , polskie_znaki));
@@ -338,16 +372,15 @@ namespace ZgłoszeniaPIWOlesno
             table.AddCell(cell7);
 
             document.Add(table);
-            // Close the document  
+            // zamknij dokument 
             document.Close();
-            // Close the writer instance  
+            // zamknij writer 
             writer.Close();
-            // Always close open filehandles explicity  
+            // zakmnij obsługiwane pliki
             fs.Close();
-            //Process.Start("C:test.pdf");
         }
 
-        private void checkBseOrTseTest(out string testType)
+        private void checkBseOrTseTest(out string testType) // selekcja badanie BSE/TSE w zależności od tego co padło
         {
             testType = null;
             if (mainWindow.txtTypeOfDeadAnimal.Text == "bydlo")
@@ -390,10 +423,10 @@ namespace ZgłoszeniaPIWOlesno
             string tempHowManyMonthsAnimalLive = HowManyMonthsAnimalLive.ToString();
 
 
-            MessageBox.Show(tempHowManyMonthsAnimalLive);
+            //MessageBox.Show(tempHowManyMonthsAnimalLive);
         }
 
-        private void OfficialPosition(out string OfficialPositionWhoGetNewNotification)
+        private void OfficialPosition(out string OfficialPositionWhoGetNewNotification) // osoba przyjmująca zgłoszenie
         {
             OfficialPositionWhoGetNewNotification = null;
             string WhoGetGetNotification = mainWindow.comboBox_WhoGetGetNotification.Text;
@@ -446,45 +479,60 @@ namespace ZgłoszeniaPIWOlesno
 
         }
 
-        private void btnSendMail_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process[] processes = System.Diagnostics.Process.GetProcessesByName("OUTLOOK");
-            int collCount = processes.Length;
+        //public void btnSendMail_Click( object sender, RoutedEventArgs e) // wysłanie maili z załącznikami
+        //{
+        //    CalculateHowOldIsDeadAnimal(out int HowManyMonthsAnimalLive);
+        //    if (HowManyMonthsAnimalLive > 48)
+        //    {
+        //        System.Diagnostics.Process[] processes = System.Diagnostics.Process.GetProcessesByName("OUTLOOK");
+        //        int collCount = processes.Length;
 
-            if (collCount != 0)
-            {
-                Microsoft.Office.Interop.Outlook.Application oApp = Marshal.GetActiveObject("Outlook.Application") as Microsoft.Office.Interop.Outlook.Application;
-                Microsoft.Office.Interop.Outlook.MailItem mailItem = (Microsoft.Office.Interop.Outlook.MailItem)oApp.CreateItem(Microsoft.Office.Interop.Outlook.OlItemType.olMailItem);
-                mailItem.Subject = "This is the test message";
-                mailItem.To = "contactus@authorcode.com";
-                mailItem.CC = "supporttools@authorcode.com";
-                mailItem.Body = "This is the test message";
-                mailItem.Importance = Microsoft.Office.Interop.Outlook.OlImportance.olImportanceNormal;
-                mailItem.Display(false);
-                mailItem = null;
-                oApp = null;
-            }
-            else
-            {
-                Microsoft.Office.Interop.Outlook.Application oApp = new Microsoft.Office.Interop.Outlook.Application();
-                Microsoft.Office.Interop.Outlook.MailItem mailItem = (Microsoft.Office.Interop.Outlook.MailItem)oApp.CreateItem(Microsoft.Office.Interop.Outlook.OlItemType.olMailItem);
-                mailItem.Subject = "This is the test message";
-                mailItem.To = "contactus@authorcode.com";
-                mailItem.CC = "supporttools@authorcode.com";
-                mailItem.Body = "This is the test message";
-                mailItem.Importance = Microsoft.Office.Interop.Outlook.OlImportance.olImportanceNormal;
-                mailItem.Display(false);
-                mailItem = null;
-                oApp = null;
-            }
+        //        if (collCount != 0)
+        //        {
+        //            Microsoft.Office.Interop.Outlook.Application oApp = Marshal.GetActiveObject("Outlook.Application") as Microsoft.Office.Interop.Outlook.Application;
+        //            Microsoft.Office.Interop.Outlook.MailItem mailItem = (Microsoft.Office.Interop.Outlook.MailItem)oApp.CreateItem(Microsoft.Office.Interop.Outlook.OlItemType.olMailItem);
+        //            mailItem.Subject = "PIW Olesno - zgłoszenia padniecia.";
+        //            mailItem.To = "wlodara@wiw.opole.pl";
+        //            mailItem.CC = "farmutil@farmutil.pl";
+        //            mailItem.Body = "Zgłoszenie padnięcia. \nPIW Olesno";
 
-            funckcja();
-            void funckcja()
-            {
-                MessageBox.Show("sdsd");
-            }
+        //            try
+        //            {
 
-        }
+        //                Microsoft.Office.Interop.Outlook.Attachments mailAttachments = mailItem.Attachments;
+        //                Microsoft.Office.Interop.Outlook.Attachment newAttachment = mailAttachments.Add(
+        //                @"C:\Users\mojeq\source\repos\ZgłoszeniaPIWOlesno\ZgłoszeniaPIWOlesno\bin\Debug\PDFy\" + mainWindow.txtFarmNumber.Text + "-zal6-" + SavingDateTime + ".pdf",
+        //                Microsoft.Office.Interop.Outlook.OlAttachmentType.olByValue, 1, "The test attachment");
+        //                mailItem.Save();
+        //                mailItem.Importance = Microsoft.Office.Interop.Outlook.OlImportance.olImportanceNormal;
+        //                mailItem.Display(false);
+        //                mailItem = null;
+        //                oApp = null;
+        //                MessageBox.Show("Utworzono wiadomość z załącznikiem nr 6.");
+        //            }
+        //            catch
+        //            {
+        //                MessageBox.Show("Nie ma potrzeby wysłania załącznika, padła sztuka za młoda.");
+        //            }
+        //            // don't forget to release underlying COM objects
+        //            // if (newAttachment != null) Marshal.ReleaseComObject(newAttachment);
+        //            // if (mailAttachments != null) Marshal.ReleaseComObject(mailAttachments);
+        //            //  Marshal.ReleaseComObject(mailItem);
+
+        //        }
+
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Nie ma potrzeby wysłania załącznika, padła sztuka za młoda.");
+        //    }
+        //    //funckcja();
+        //    //void funckcja()
+        //    //{
+        //    //    MessageBox.Show("Wysłano załącznik.");
+        //    //}
+
+        //}
 
     }
 }

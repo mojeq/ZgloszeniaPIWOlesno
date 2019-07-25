@@ -7,24 +7,19 @@
         mc:Ignorable="d"
         Title="PrintSendMail" Height="350" Width="800">
     <Grid Margin="0,1,-0.4,-6.2">
-        <Button x:Name="btnGenerateAttachment" Content="Zapisz załączniki" HorizontalAlignment="Left" Margin="80,246,0,0" VerticalAlignment="Top" Width="230" Click="btnGenerateAttachment_Click" Height="48" Background="#FF3ED12E" FontSize="18" FontFamily="Arial"/>
-        <Button x:Name="btnSendMail" Content="Wyślij maile" HorizontalAlignment="Left" Margin="484,246,0,0" VerticalAlignment="Top" Width="213" Click="btnSendMail_Click" Height="48" FontSize="18" Background="#FF3ED12E" FontFamily="Arial"/>
+        <Button x:Name="btnGenerateAttachment" Content="ZAPISZ ZAŁĄCZNIKI / UTWÓRZ WIADOMOŚĆ " HorizontalAlignment="Left" Margin="80,246,0,0" VerticalAlignment="Top" Width="628" Click="btnGenerateAttachment_Click" Height="47" Background="#FF3ED12E" FontSize="18" FontFamily="Arial"/>
         <Label Content="Powiatowy Lekarz Weterynarii właściwy dla miejsca lokalizacji zakładu utylizacyjnego/zakładu pośredniego&#xA;" HorizontalAlignment="Left" Margin="80,25,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.378,0.106" Width="617" Height="36"/>
         <Label HorizontalAlignment="Left" Margin="433,85,-256,0" VerticalAlignment="Top" RenderTransformOrigin="-1.378,0.106" Width="617" Height="26"/>
 
         <ComboBox x:Name="comboBox_WIW" IsEditable="true" HorizontalAlignment="Left" Margin="80,194,0,0" VerticalAlignment="Top" SelectedIndex="0" Width="230" Height="26" FontSize="14">
             <ComboBoxItem Content="Opole"/>
             <ComboBoxItem Content="Łódź"/>
-            <ComboBoxItem Content="Wrocław"/>
-            <ComboBoxItem Content="Katowice"/>
         </ComboBox>
 
         <Label Content="Powiatowy Lekarz Weterynarii właściwy dla miejsca padnięcia/zabicia zwierzęcia&#xA;" HorizontalAlignment="Left" Margin="80,94,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.378,0.106" Width="617" Height="36"/>
         <Label Content="WIW właściwy dla miejsca pobrania próbki do badania w kierunku BSE&#xA;" HorizontalAlignment="Left" Margin="80,165,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.378,0.106" Width="617" Height="36"/>
         <ComboBox x:Name="comboBox_PLWDeadArea" IsEditable="true" HorizontalAlignment="Left" Margin="80,122,0,0" VerticalAlignment="Top" SelectedIndex="0" Width="235" Height="26" FontSize="14">
             <ComboBoxItem Content="Olesno"/>
-            <ComboBoxItem Content="Opole"/>
-            <ComboBoxItem Content="Radomsko"/>
         </ComboBox>
         <ComboBox x:Name="comboBox_PLWUtilizationArea" IsEditable="true" HorizontalAlignment="Left" Margin="80,55,0,0" VerticalAlignment="Top" SelectedIndex="0" Width="235" Height="26" FontSize="14">
             <ComboBoxItem Content="Opole"/>
