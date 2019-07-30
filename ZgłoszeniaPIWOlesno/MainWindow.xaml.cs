@@ -44,6 +44,17 @@ namespace ZgłoszeniaPIWOlesno
                 
                 NewNotification.Visibility = Visibility.Visible; //wyświetlenie na prawej stronie Uzupełnij dane zgłoszenia
 
+                // Entity Framework
+                //BAZA_ARIMREntities db = new BAZA_ARIMREntities();
+                //// int a = 0;
+                //var farms = db.BAZA_GOSPODARSTWA_.Where(a => a.NR_STADA == "020847366-001");
+                //foreach(var item in farms)
+                //{
+                //    MessageBox.Show($"Nazwisko:  { item.NAZWISKO_LUB_NAZWA}");
+                //}
+
+                //
+
                 Singleton cs = Singleton.Instance; //tworzymy instancję Singletona do połączenia z bazą banych
                 cs.GetDBConnection();
                 cs.GetDBConnection().Open();

@@ -358,18 +358,37 @@ namespace ZgłoszeniaPIWOlesno
             PdfPCell cell5 = new PdfPCell(new Phrase("\nProszę o przesłanie próbek do badań w kierunku "+testType+" z adnotacją o potrzebie przesłania wyniku " +
                 "badania faksem na nr 34 358 26 18 oraz drogą elektroniczną piw.olesno@wiw.opole.pl. " +
                 "Kosztami badań należy obciążyć budżet wojewódzkiego inspektoratu weterynarii "+comboBox_WIW.Text+" (WIW właściwy dla miejsca pobrania próbki do badania " +
-                "w kierunku BSE).", polskie_znaki));
+                "w kierunku BSE).\n ", polskie_znaki));
             cell5.Colspan = 2;
             cell5.Border = 0;
             cell5.HorizontalAlignment = 0;
             table.AddCell(cell5);
 
+            table.AddCell(new Phrase("Potwierdzenie dotarcia zwłok do ZU: ", polskie_znaki));
+            table.AddCell(new Phrase("POTWIERDZAM\n\nNIE POTWIERDZAM\n\nData i godzina:", polskie_znaki));
 
-            PdfPCell cell7 = new PdfPCell(new Phrase("Osoba przyjmująca zgłoszenie: \n " + mainWindow.comboBox_WhoGetGetNotification.Text, polskie_znaki));
+            table.AddCell(new Phrase("Potwierdzenie pobrania próbki na BSE: ", polskie_znaki));
+            table.AddCell(new Phrase("POBRANO           NIE POBRANO**", polskie_znaki));
+
+            PdfPCell cell6 = new PdfPCell(new Phrase("\n**podać przyczyną nie pobrania próbki .........................................................\n" +
+                "\n........................................................................................................................", polskie_znaki));
+            cell6.Colspan = 2;
+            cell6.Border = 0;
+            cell6.HorizontalAlignment = 0;
+            table.AddCell(cell6);
+
+
+            PdfPCell cell7 = new PdfPCell(new Phrase("Osoba wysyłająca awizo: \n " + mainWindow.comboBox_WhoGetGetNotification.Text, polskie_znaki));
             cell7.Colspan = 2;
             cell7.Border = 0;
             cell7.HorizontalAlignment = 2; //0=Left, 1=Centre, 2=Right
             table.AddCell(cell7);
+
+            PdfPCell cell8 = new PdfPCell(new Phrase("\n\n\n\n\n-właściwe podkreślić", polskie_znaki));
+            cell8.Colspan = 2;
+            cell8.Border = 0;
+            cell8.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+            table.AddCell(cell8);
 
             document.Add(table);
             // zamknij dokument 
