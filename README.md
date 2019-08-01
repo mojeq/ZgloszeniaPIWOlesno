@@ -10,6 +10,7 @@ Project is created with:
 * WPF
 * MSSQL 2017
 * SQL
+* Entity Framework
 * MS Outlook
 * iTextSharp
 * NodaTime
