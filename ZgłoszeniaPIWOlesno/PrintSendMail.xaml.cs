@@ -22,43 +22,45 @@ namespace ZgłoszeniaPIWOlesno
             mainWindow = mainWin;
             InitializeComponent();
         }
-        static string SavingDateTime = DateTime.Now.ToString("yyyy-MM-dd-hh-mm");
+        static string savingDateTime = DateTime.Now.ToString("yyyy-MM-dd-hh-mm");
         private void btnGenerateAttachment_Click(object sender, RoutedEventArgs e)
-        {            
-            int NumberLastNotification = CheckNumberLastNotification();
-            string numberLastNotification = NumberLastNotification.ToString();
+        {
+            string savePath = "PDFy/";
+            string attachmentPath = @"C:\Users\mojeq\source\repos\ZgłoszeniaPIWOlesno\ZgłoszeniaPIWOlesno\bin\Debug\PDFy\";
+            int numberLastNotificationInt = CheckNumberLastNotification();
+            string numberLastNotification = numberLastNotificationInt.ToString();
 
-            string OfficialPositionWhoGetNewNotification;
-            OfficialPosition(out OfficialPositionWhoGetNewNotification);
+            string officialPositionWhoGetNewNotification;
+            OfficialPosition(out officialPositionWhoGetNewNotification);
             
             int wiek;
              
-            CalculateHowOldIsDeadAnimal(out int HowManyMonthsAnimalLive);
-            wiek = HowManyMonthsAnimalLive;
-            CreateAttachmentNr7(OfficialPositionWhoGetNewNotification, numberLastNotification, SavingDateTime, HowManyMonthsAnimalLive);
-            CreateAttachments(HowManyMonthsAnimalLive, OfficialPositionWhoGetNewNotification, numberLastNotification);
+            CalculateHowOldIsDeadAnimal(out int howManyMonthsAnimalLive);
+            wiek = howManyMonthsAnimalLive;
+            CreateAttachmentNr7(officialPositionWhoGetNewNotification, numberLastNotification, howManyMonthsAnimalLive, savePath);
+            CreateAttachments(howManyMonthsAnimalLive, officialPositionWhoGetNewNotification, numberLastNotification, savePath, attachmentPath);
         }
 
-        private void CreateAttachments(int HowManyMonthsAnimalLive, string OfficialPositionWhoGetNewNotification, 
-            string numberLastNotification) // w zależności od wieku padłego zwierzęcia generowane są inne załączniki
+        private void CreateAttachments(int howManyMonthsAnimalLive, string officialPositionWhoGetNewNotification, 
+            string numberLastNotification, string savePath, string attachmentPath) // w zależności od wieku padłego zwierzęcia generowane są inne załączniki
             {
-            if (HowManyMonthsAnimalLive >= 48 && mainWindow.txtTypeOfDeadAnimal.Text == "bydlo")
+            if (howManyMonthsAnimalLive >= 48 && mainWindow.txtTypeOfDeadAnimal.Text == "bydlo")
             {
-                CreateAttachmentNr6(OfficialPositionWhoGetNewNotification, HowManyMonthsAnimalLive, numberLastNotification);
-                CreateMailWithAttachmentNr6(OfficialPositionWhoGetNewNotification, HowManyMonthsAnimalLive, numberLastNotification);
+                CreateAttachmentNr6(officialPositionWhoGetNewNotification, howManyMonthsAnimalLive, numberLastNotification, savePath);
+                CreateMailWithAttachmentNr6(officialPositionWhoGetNewNotification, numberLastNotification, attachmentPath);
             }
-            else if (HowManyMonthsAnimalLive >= 18 && mainWindow.txtTypeOfDeadAnimal.Text == "koza")
+            else if (howManyMonthsAnimalLive >= 18 && mainWindow.txtTypeOfDeadAnimal.Text == "koza")
             {
-                CreateAttachmentNr6(OfficialPositionWhoGetNewNotification, HowManyMonthsAnimalLive, numberLastNotification);
-                CreateMailWithAttachmentNr6(OfficialPositionWhoGetNewNotification, HowManyMonthsAnimalLive, numberLastNotification);
+                CreateAttachmentNr6(officialPositionWhoGetNewNotification, howManyMonthsAnimalLive, numberLastNotification, savePath);
+                CreateMailWithAttachmentNr6(officialPositionWhoGetNewNotification, numberLastNotification, attachmentPath);
             }
-            else if (HowManyMonthsAnimalLive >= 18 && mainWindow.txtTypeOfDeadAnimal.Text == "owca")
+            else if (howManyMonthsAnimalLive >= 18 && mainWindow.txtTypeOfDeadAnimal.Text == "owca")
             {
-                CreateAttachmentNr6(OfficialPositionWhoGetNewNotification, HowManyMonthsAnimalLive, numberLastNotification);
-                CreateMailWithAttachmentNr6(OfficialPositionWhoGetNewNotification, HowManyMonthsAnimalLive, numberLastNotification);
+                CreateAttachmentNr6(officialPositionWhoGetNewNotification, howManyMonthsAnimalLive, numberLastNotification, savePath);
+                CreateMailWithAttachmentNr6(officialPositionWhoGetNewNotification, numberLastNotification, attachmentPath);
             }
         }
-        private void CreateMailWithAttachmentNr6(string officialPositionWhoGetNewNotification, int howManyMonthsAnimalLive, string numberLastNotification)
+        private void CreateMailWithAttachmentNr6(string officialPositionWhoGetNewNotification, string numberLastNotification, string attachmentPath)
         {
             System.Diagnostics.Process[] processes = System.Diagnostics.Process.GetProcessesByName("OUTLOOK");
             int collCount = processes.Length;
@@ -67,26 +69,26 @@ namespace ZgłoszeniaPIWOlesno
             {
                     Microsoft.Office.Interop.Outlook.Application oApp = Marshal.GetActiveObject("Outlook.Application") as Microsoft.Office.Interop.Outlook.Application;
                     Microsoft.Office.Interop.Outlook.MailItem mailItem = (Microsoft.Office.Interop.Outlook.MailItem)oApp.CreateItem(Microsoft.Office.Interop.Outlook.OlItemType.olMailItem);
-                    mailItem.Subject = "PIW Olesno - zgłoszenia padniecia numer " + numberLastNotification + ".";
+                    mailItem.Subject = "PIW Olesno - zgłoszenia padniecia numer " + "1608/" + numberLastNotification + "/2019" + ".";
                     if (mainWindow.comboBox_UtilizationCompany.Text == "Jasta")
                     {
-                        mailItem.To = "radomsko.piw@wetgiw.gov.pl";
-                        mailItem.CC = "jastaska@jasta.net.pl, w.wlodara@wiw.opole.pl, marcelina.skawska@jasta.net.pl ";
+                        mailItem.To = "jastaska@jasta.net.pl, marcelina.skawska@jasta.net.pl";
+                        mailItem.CC = "radomsko.piw @wetgiw.gov.pl, w.wlodara@wiw.opole.pl, d.tomas@wiw.opole.pl";
                     }
                     else if (mainWindow.comboBox_UtilizationCompany.Text == "Farmutil")
                     {
-                        mailItem.To = "piw.opole@wiw.opole.pl";
-                        mailItem.CC = "d.tomas@wiw.opole.pl, wegry@farmutil.pl, w.wlodara@wiw.opole.pl";
+                        mailItem.To = "wegry@farmutil.pl";
+                        mailItem.CC = "d.tomas@wiw.opole.pl, piw.opole@wiw.opole.pl, w.wlodara@wiw.opole.pl";
                     }
                     else
                     {
                         mailItem.To = "";
                     }
-                    mailItem.Body = "Zgłoszenie padnięcia. \nPIW Olesno\n" + officialPositionWhoGetNewNotification + "\n" + mainWindow.comboBox_WhoGetGetNotification.Text;                    
+                    mailItem.Body = "Zgłoszenie padnięcia nr " + "1608/" + numberLastNotification + "/2019" + ". \nPIW Olesno\n" + officialPositionWhoGetNewNotification + "\n" + mainWindow.comboBox_WhoGetGetNotification.Text;                    
                     Microsoft.Office.Interop.Outlook.Attachments mailAttachments = mailItem.Attachments;
                     Microsoft.Office.Interop.Outlook.Attachment newAttachment = mailAttachments.Add(
-                    @"C:\Users\mojeq\source\repos\ZgłoszeniaPIWOlesno\ZgłoszeniaPIWOlesno\bin\Debug\PDFy\" + mainWindow.txtFarmNumber.Text + "-zal6-" + SavingDateTime + ".pdf",
-                    Microsoft.Office.Interop.Outlook.OlAttachmentType.olByValue, 1, "The test attachment");
+                    attachmentPath + numberLastNotification + "-" + mainWindow.txtFarmNumber.Text + "-zal6-" + savingDateTime + ".pdf",
+                    Microsoft.Office.Interop.Outlook.OlAttachmentType.olByValue, 1, "Załącznik nr 6");
                     mailItem.Save();
                     mailItem.Importance = Microsoft.Office.Interop.Outlook.OlImportance.olImportanceNormal;
                     mailItem.Display(false);
@@ -102,9 +104,9 @@ namespace ZgłoszeniaPIWOlesno
             cs.GetDBConnection().Open();
             SqlCommand CommandSQL = cs.GetDBConnection().CreateCommand(); // tworzenie komendy SQl do bazy danych
 
-            CommandSQL.Parameters.Add("@DateAndTimeNewNotificationOfAnimalDead", SqlDbType.VarChar).Value = mainWindow.txtDateAndTimeNewNotificationOfAnimalDead.Text;
-            CommandSQL.Parameters.Add("@FarmNumber", SqlDbType.VarChar).Value = mainWindow.txtFarmNumber.Text;
-            CommandSQL.CommandText = "SELECT ID FROM ZGLOSZENIA$ WHERE NR_STADA=@FarmNumber and DATA_CZAS_ZGL=@DateAndTimeNewNotificationOfAnimalDead";
+            CommandSQL.Parameters.Add("@dateAndTimeNewNotificationOfAnimalDead", SqlDbType.VarChar).Value = mainWindow.txtDateAndTimeNewNotificationOfAnimalDead.Text;
+            CommandSQL.Parameters.Add("@farmNumber", SqlDbType.VarChar).Value = mainWindow.txtFarmNumber.Text;
+            CommandSQL.CommandText = "SELECT ID FROM ZGLOSZENIA$ WHERE NR_STADA=@farmNumber and DATA_CZAS_ZGL=@dateAndTimeNewNotificationOfAnimalDead";
             SqlDataReader reader = CommandSQL.ExecuteReader(); // wykonanie zapytania do bazy
             reader.Read();
             string id = reader["ID"].ToString();
@@ -113,9 +115,9 @@ namespace ZgłoszeniaPIWOlesno
             cs.GetDBConnection().Close();
             return ID;
         }                
-        private void CreateAttachmentNr7(string OfficialPositionWhoGetNewNotification, string numberLastNotification, string SavingDateTime, int HowManyMonthsAnimalLive) //tworzymy załącznik numer 7
+        private void CreateAttachmentNr7(string officialPositionWhoGetNewNotification, string numberLastNotification, int howManyMonthsAnimalLive, string savePath) //tworzymy załącznik numer 7
         {            
-            System.IO.FileStream fs = new FileStream("PDFy/" + mainWindow.txtFarmNumber.Text+"-zal7-"+ SavingDateTime + ".pdf", FileMode.Create);
+            System.IO.FileStream fs = new FileStream(savePath+numberLastNotification +"-"+ mainWindow.txtFarmNumber.Text+"-zal7-"+ savingDateTime + ".pdf", FileMode.Create);
             // tworzymy instancje klasy dokumentu pdf z wymiarem A4  
             Document document = new Document(PageSize.A4, 25, 25, 30, 30);        
             // klasa writer używająca dokument i strumienia w konstruktorze
@@ -133,7 +135,7 @@ namespace ZgłoszeniaPIWOlesno
             cell.Border = 0;
             cell.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
             table.AddCell(cell);
-            table.AddCell(new Phrase("Numer zgłoszenia", polskie_znaki));
+            table.AddCell(new Phrase("Numer dokumentu", polskie_znaki));
             table.AddCell("1608/"+ numberLastNotification+"/2019");
             table.AddCell(new Phrase("Data i godzina przyjęcia zgłoszenia", polskie_znaki));
             table.AddCell(mainWindow.txtDateAndTimeNewNotificationOfAnimalDead.Text);
@@ -160,7 +162,7 @@ namespace ZgłoszeniaPIWOlesno
             table.AddCell(new Phrase("Imię i nazwisko", polskie_znaki));
             table.AddCell(new Phrase(mainWindow.comboBox_WhoGetGetNotification.Text, polskie_znaki));
             table.AddCell(new Phrase("Stanowisko służbowe", polskie_znaki));
-            table.AddCell(new Phrase(OfficialPositionWhoGetNewNotification, polskie_znaki));
+            table.AddCell(new Phrase(officialPositionWhoGetNewNotification, polskie_znaki));
 
             PdfPCell cell4 = new PdfPCell(new Phrase("\nMiejsce padnięcia zwierzęcia – adres gospodarstwa", polskie_znaki));
             cell4.Colspan = 2;
@@ -198,7 +200,7 @@ namespace ZgłoszeniaPIWOlesno
             table.AddCell(new Phrase("nr kolczyka zwierzęcia", polskie_znaki));
             table.AddCell(new Phrase(mainWindow.txtFarmNumber.Text, polskie_znaki));
             table.AddCell(new Phrase("data urodzenia i wiek", polskie_znaki));
-            table.AddCell(new Phrase(mainWindow.txtDateBorn.Text + " wiek: " + HowManyMonthsAnimalLive + "miesięcy", polskie_znaki));
+            table.AddCell(new Phrase(mainWindow.txtDateBorn.Text + " wiek: " + howManyMonthsAnimalLive + "miesięcy", polskie_znaki));
             table.AddCell(new Phrase("płeć", polskie_znaki));
             table.AddCell(new Phrase(mainWindow.comboBox_GenderOfDeadAnimal.Text, polskie_znaki));
             table.AddCell(new Phrase("Data i godzina padnięcia", polskie_znaki));
@@ -225,19 +227,18 @@ namespace ZgłoszeniaPIWOlesno
             fs.Close();       
         }
         //todo:potwierdzenie dotarcia i potwierdzenia pobrania dodać na spodzie załącznika     
-        private void CreateAttachmentNr6(string OfficialPositionWhoGetNewNotification, int HowManyMonthsAnimalLive, 
-            string numerLastNotification) // tworzymy załącznik nr 6 w pdfie
+        private void CreateAttachmentNr6(string officialPositionWhoGetNewNotification, int howManyMonthsAnimalLive, 
+            string numberLastNotification, string savepath) // tworzymy załącznik nr 6 w pdfie
         {
             checkBseOrTseTest(out string testType);
-            string SavingDateTime = DateTime.Now.ToString("yyyy-MM-dd-hh-mm");
-            System.IO.FileStream fs = new FileStream("PDFy/" + mainWindow.txtFarmNumber.Text +"-zal6-"+SavingDateTime+".pdf", FileMode.Create);
+            System.IO.FileStream fs = new FileStream(savepath + numberLastNotification + "-" + mainWindow.txtFarmNumber.Text +"-zal6-"+savingDateTime+".pdf", FileMode.Create);
             // tworzymy instancje klasy dokumentu pdf z wymiarem A4  
             Document document = new Document(PageSize.A4, 25, 25, 30, 30);
             // klasa writer używająca dokument i strumienia w konstruktorze
             PdfWriter writer = PdfWriter.GetInstance(document, fs);
 
             // meta informacje o dokumencie
-            document.AddAuthor(OfficialPositionWhoGetNewNotification);
+            document.AddAuthor(officialPositionWhoGetNewNotification);
             document.AddTitle("Rejestr zgłoszeń padłego bydła - załącznik 6");
 
             // otwieramy dokument aby dodac do niego zawartość
@@ -276,14 +277,14 @@ namespace ZgłoszeniaPIWOlesno
             table.AddCell(new Phrase("Powiatowy Lekarz Weterynarii ", polskie_znaki));
             table.AddCell(new Phrase(comboBox_PLWDeadArea.Text, polskie_znaki));
 
-            table.AddCell(new Phrase("Numer zgłoszenia", polskie_znaki));
-            table.AddCell("1608/"+numerLastNotification+"/2019");
+            table.AddCell(new Phrase("Numer dokumentu", polskie_znaki));
+            table.AddCell("1608/"+numberLastNotification+"/2019");
 
             table.AddCell(new Phrase("Numer kolczyka", polskie_znaki));
             table.AddCell(mainWindow.txtEarTagNumber.Text);
 
             table.AddCell(new Phrase("data urodzenia i wiek", polskie_znaki));
-            table.AddCell(new Phrase(mainWindow.txtDateBorn.Text+" wiek: "+HowManyMonthsAnimalLive+"miesięcy" , polskie_znaki));
+            table.AddCell(new Phrase(mainWindow.txtDateBorn.Text+" wiek: "+howManyMonthsAnimalLive+"miesięcy" , polskie_znaki));
 
             table.AddCell(new Phrase("płeć", polskie_znaki));
             table.AddCell(new Phrase(mainWindow.comboBox_GenderOfDeadAnimal.Text, polskie_znaki));
@@ -375,81 +376,81 @@ namespace ZgłoszeniaPIWOlesno
                 testType = test;
             }           
         }
-        private void CalculateHowOldIsDeadAnimal(out int HowManyMonthsAnimalLive) // liczymy ile miesięcy miało padłe zwierzę
+        private void CalculateHowOldIsDeadAnimal(out int howManyMonthsAnimalLive) // liczymy ile miesięcy miało padłe zwierzę
         {            
-            DateTime DateDead = DateTime.Parse(mainWindow.DateDead.Text);
-            DateTime DateBorn = DateTime.Parse(mainWindow.DateBorn.Text);
+            DateTime dateDead = DateTime.Parse(mainWindow.DateDead.Text);
+            DateTime dateBorn = DateTime.Parse(mainWindow.DateBorn.Text);
 
-            string tempYearBorn = DateBorn.ToString("yyyy");
-            string tempMonthBorn = DateBorn.ToString("MM");
-            string tempDayBorn = DateBorn.ToString("dd");
-            int YearBorn = System.Convert.ToInt16(tempYearBorn);
-            int MonthBorn = System.Convert.ToInt16(tempMonthBorn);
-            int DayBorn = System.Convert.ToInt16(tempDayBorn);
+            string tempYearBorn = dateBorn.ToString("yyyy");
+            string tempMonthBorn = dateBorn.ToString("MM");
+            string tempDayBorn = dateBorn.ToString("dd");
+            int yearBorn = System.Convert.ToInt16(tempYearBorn);
+            int monthBorn = System.Convert.ToInt16(tempMonthBorn);
+            int dayBorn = System.Convert.ToInt16(tempDayBorn);
 
-            string tempYearDead = DateDead.ToString("yyyy");
-            string tempMonthDead = DateDead.ToString("MM");
-            string tempDayDead = DateDead.ToString("dd");
-            int YearDead = System.Convert.ToInt16(tempYearDead);
-            int MonthDead = System.Convert.ToInt16(tempMonthDead);
-            int DayDead = System.Convert.ToInt16(tempDayDead);
+            string tempYearDead = dateDead.ToString("yyyy");
+            string tempMonthDead = dateDead.ToString("MM");
+            string tempDayDead = dateDead.ToString("dd");
+            int yearDead = System.Convert.ToInt16(tempYearDead);
+            int monthDead = System.Convert.ToInt16(tempMonthDead);
+            int dayDead = System.Convert.ToInt16(tempDayDead);
 
-            LocalDate WhenAnimalBorn = new LocalDate(YearBorn, MonthBorn, DayBorn);
-            LocalDate WhenAnimalDead = new LocalDate(YearDead, MonthDead, DayDead);
+            LocalDate whenAnimalBorn = new LocalDate(yearBorn, monthBorn, dayBorn);
+            LocalDate whenAnimalDead = new LocalDate(yearDead, monthDead, dayDead);
 
-            Period tempMonths = Period.Between(WhenAnimalBorn, WhenAnimalDead, PeriodUnits.Months);
-            HowManyMonthsAnimalLive = tempMonths.Months;
-            string tempHowManyMonthsAnimalLive = HowManyMonthsAnimalLive.ToString();
+            Period tempMonths = Period.Between(whenAnimalBorn, whenAnimalDead, PeriodUnits.Months);
+            howManyMonthsAnimalLive = tempMonths.Months;
+            string tempHowManyMonthsAnimalLive = howManyMonthsAnimalLive.ToString();
         }
 
-        private void OfficialPosition(out string OfficialPositionWhoGetNewNotification) // osoba przyjmująca zgłoszenie
+        private void OfficialPosition(out string officialPositionWhoGetNewNotification) // osoba przyjmująca zgłoszenie
         {
-            OfficialPositionWhoGetNewNotification = null;
-            string WhoGetGetNotification = mainWindow.comboBox_WhoGetGetNotification.Text;
-            switch (WhoGetGetNotification)
+            officialPositionWhoGetNewNotification = null;
+            string whoGetGetNotification = mainWindow.comboBox_WhoGetGetNotification.Text;
+            switch (whoGetGetNotification)
             {
                 case "Gabriela Gallus":
-                    OfficialPositionWhoGetNewNotification = "Starszy referent ds. administracyjnych";            
+                    officialPositionWhoGetNewNotification = "Starszy referent ds. administracyjnych";            
                     break;            
             
                 case "Joanna Frankiewicz":
-                    OfficialPositionWhoGetNewNotification = "Inspektor ds. dobrostanu zwierząt";
+                    officialPositionWhoGetNewNotification = "Inspektor ds. dobrostanu zwierząt";
                     break;
 
                 case "Piotr Moj":
-                    OfficialPositionWhoGetNewNotification = "Informatyk";
+                    officialPositionWhoGetNewNotification = "Informatyk";
                     break;
 
                 case "Izabela Glomb":
-                    OfficialPositionWhoGetNewNotification = "Inspektor ds. pasz i utylizacji";
+                    officialPositionWhoGetNewNotification = "Inspektor ds. pasz i utylizacji";
                     break;
 
                 case "Krzysztof Chyra":
-                    OfficialPositionWhoGetNewNotification = "Zastępca PLW";
+                    officialPositionWhoGetNewNotification = "Zastępca PLW";
                     break;
 
                 case "Łukasz Kościelny":
-                    OfficialPositionWhoGetNewNotification = "Inspektor ds. chorób zakaźnych";
+                    officialPositionWhoGetNewNotification = "Inspektor ds. chorób zakaźnych";
                     break;
 
                 case "Sebastian Konwant":
-                    OfficialPositionWhoGetNewNotification = "Powiatowy Lekarz Weterynarii";
+                    officialPositionWhoGetNewNotification = "Powiatowy Lekarz Weterynarii";
                     break;
 
                 case "Katarzyna Lech":
-                    OfficialPositionWhoGetNewNotification = "Inspektor ds. higieny zwierząt";
+                    officialPositionWhoGetNewNotification = "Inspektor ds. higieny zwierząt";
                     break;
 
                 case "Urszula Tylak":
-                    OfficialPositionWhoGetNewNotification = "Kontroler weterynaryjny";
+                    officialPositionWhoGetNewNotification = "Kontroler weterynaryjny";
                     break;
 
                 case "Małgorzata Wychrystenko":
-                    OfficialPositionWhoGetNewNotification = "Zastępca głównej księgowej";
+                    officialPositionWhoGetNewNotification = "Zastępca głównej księgowej";
                     break;
 
                 case "Anna Kała":
-                    OfficialPositionWhoGetNewNotification = "Główna księgowa";
+                    officialPositionWhoGetNewNotification = "Główna księgowa";
                     break;
             }
         }

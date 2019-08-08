@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Data.SqlClient;
 using System.Data;
+using System.Globalization;
 
 namespace ZgłoszeniaPIWOlesno
 {
@@ -111,21 +112,24 @@ namespace ZgłoszeniaPIWOlesno
             }
         }//przycisk szukaj, wpisujemy numer stada i klikamy przycisk szukaj
 
-
-        private void DatePickerDateBornAnimal_SelectedDateChanged(object sender, SelectionChangedEventArgs e) // Data picker - data urodzenia zwierzęcia
-        {
+        DateTime data = new DateTime();
+        public void DatePickerDateBornAnimal_SelectedDateChanged(object sender, SelectionChangedEventArgs e) // Data picker - data urodzenia zwierzęcia
+        {            
             var picker = sender as DatePicker; // referencja Data picker
-
+            
             DateTime? date = picker.SelectedDate; /// pozyskanie daty nullable z SelectedDate
             if (date == null)
             {
                 this.Title = "Brak daty";// gdy nie ma daty
+                data = date.Value;
             }
             else
             {
                 this.Title = date.Value.ToString("yyyy-MM-dd"); // konwersja daty na string
                 txtDateBorn.Text = this.Title; // zapis daty w boxie DataBorn
+                data = date.Value;
             }
+                     
         }
         private void DatePickerDateDeadAnimal_SelectedDateChanged(object sender, SelectionChangedEventArgs e) // Data picker - data padnięcia zwierzęcia
         {
@@ -172,8 +176,7 @@ namespace ZgłoszeniaPIWOlesno
                 return;
             }
             else if (String.IsNullOrWhiteSpace(txtWhoReportingNewNotification.Text) ||
-                String.IsNullOrWhiteSpace(txtAddressPersonReporting.Text) ||
-                String.IsNullOrWhiteSpace(txtPhonePersonReporting.Text))
+                String.IsNullOrWhiteSpace(txtAddressPersonReporting.Text))               
             {
                 MessageBox.Show("Uzupełnij dane zgłaszającego");
                 return;
@@ -184,28 +187,28 @@ namespace ZgłoszeniaPIWOlesno
             cs.GetDBConnection().Open();
             SqlCommand CommandSQL = cs.GetDBConnection().CreateCommand(); // tworzenie komendy SQl do bazy danych
 
-            string FarmNumber, DateBorn, HowManyAnimalsInFarm, EarTagNumber, WhyDead, DateDead, HourOfDeadAnimal, TypeOfDeadAnimal, GenderOfDeadAnimal,
-                DeadDeterminedOrNot, UtilizationCompany, WhoReportingNewNotification, AddressPersonReporting, PhonePersonReporting,
-                WhoGetNewNotification, DateAndTimeNewNotificationOfAnimalDead, TypeOfFarm, Comment;
+            string farmNumber, dateBorn, howManyAnimalsInFarm, earTagNumber, whyDead, dateDead, hourOfDeadAnimal, typeOfDeadAnimal, genderOfDeadAnimal,
+                deadDeterminedOrNot, utilizationCompany, whoReportingNewNotification, addressPersonReporting, phonePersonReporting,
+                whoGetNewNotification, dateAndTimeNewNotificationOfAnimalDead, typeOfFarm, comment;
 
             WhatTypeOfAnimalDead(); //odczyt jaki gatunek zwierzęcia padł
 
-            DataOfNewNotification(out FarmNumber, out DateBorn, out HowManyAnimalsInFarm, out EarTagNumber, out WhyDead, out DateDead,
-                out HourOfDeadAnimal, out WhoReportingNewNotification, out AddressPersonReporting, out PhonePersonReporting,
-                out WhoGetNewNotification, out DateAndTimeNewNotificationOfAnimalDead, out TypeOfFarm, out GenderOfDeadAnimal,
-                out DeadDeterminedOrNot, out UtilizationCompany, out TypeOfDeadAnimal, out Comment); //pobranie z formularza danych zgłoszenia
+            DataOfNewNotification(out farmNumber, out dateBorn, out howManyAnimalsInFarm, out earTagNumber, out whyDead, out dateDead,
+                out hourOfDeadAnimal, out whoReportingNewNotification, out addressPersonReporting, out phonePersonReporting,
+                out whoGetNewNotification, out dateAndTimeNewNotificationOfAnimalDead, out typeOfFarm, out genderOfDeadAnimal,
+                out deadDeterminedOrNot, out utilizationCompany, out typeOfDeadAnimal, out comment); //pobranie z formularza danych zgłoszenia
 
-            ConvertDataToCommandSQL(CommandSQL, FarmNumber, DateBorn, HowManyAnimalsInFarm, EarTagNumber, WhyDead, DateDead, HourOfDeadAnimal, TypeOfDeadAnimal, GenderOfDeadAnimal,
-                DeadDeterminedOrNot, UtilizationCompany, DateAndTimeNewNotificationOfAnimalDead, WhoReportingNewNotification, AddressPersonReporting, PhonePersonReporting,
-                WhoGetNewNotification, TypeOfFarm);
+            ConvertDataToCommandSQL(CommandSQL, farmNumber, dateBorn, howManyAnimalsInFarm, earTagNumber, whyDead, dateDead, hourOfDeadAnimal, typeOfDeadAnimal, genderOfDeadAnimal,
+                deadDeterminedOrNot, utilizationCompany, dateAndTimeNewNotificationOfAnimalDead, whoReportingNewNotification, addressPersonReporting, phonePersonReporting,
+                whoGetNewNotification, typeOfFarm);
 
             CommandSQL.CommandText = "INSERT INTO ZGLOSZENIA$(NR_STADA, TYP_STADA, LICZBA_SZTUK, NR_KOLCZYKA, GATUNEK, PLEC, DATA_URODZENIA, DATA_PADNIECIA, GODZINA_PADNIECIA, PRZYCZYNA, " +
-                "OPIS_PRZYCZYNA, KTO_ODBIERA, OSOBA_ZGL, ADRES_OSOBY_ZGL, TEL_OSOBY_ZGL, DATA_CZAS_ZGL, KTO_PRZYJMUJE_ZGL) VALUES (@FarmNumber, @TypeOfFarm, @HowManyAnimalsInFarm, @EarTagNumber, @TypeOfDeadAnimal, " +
-                "@GenderOfDeadAnimal, @DateBorn, @DateDead, @HourOfDeadAnimal, @DeadDeterminedOrNot, @WhyDead, @UtilizationCompany , @WhoReportingNewNotification, @AddressPersonReporting, " +
-                "@PhonePersonReporting, @DateAndTimeNewNotificationOfAnimalDead, @WhoGetNewNotification)";
+                "OPIS_PRZYCZYNA, KTO_ODBIERA, OSOBA_ZGL, ADRES_OSOBY_ZGL, TEL_OSOBY_ZGL, DATA_CZAS_ZGL, KTO_PRZYJMUJE_ZGL) VALUES (@farmNumber, @typeOfFarm, @howManyAnimalsInFarm, @earTagNumber, @typeOfDeadAnimal, " +
+                "@genderOfDeadAnimal, @dateBorn, @dateDead, @hourOfDeadAnimal, @deadDeterminedOrNot, @whyDead, @utilizationCompany , @whoReportingNewNotification, @addressPersonReporting, " +
+                "@phonePersonReporting, @dateAndTimeNewNotificationOfAnimalDead, @whoGetNewNotification)";
 
             try // wykonanie zapytania do bazy
-                //wyświetlanie nowego okna z pdfem i wysłanie maili z załącznikiem
+                //wyświetlanie nowego okna z pdfem i wysyłanie maili z załącznikiem
             {
                 SqlDataReader save = CommandSQL.ExecuteReader();
                 cs.GetDBConnection().Close(); // zamykanie połączenia 
@@ -225,6 +228,56 @@ namespace ZgłoszeniaPIWOlesno
                 MessageBox.Show("błąd 2"); // obsługa wyjątku głównego 
                 cs.GetDBConnection().Close(); // zamykanie połączenia 
             }
+
+            //try
+            //{
+            //    //zapis do bazy za pomocą Entity Framework
+            //    BAZA_ARIMREntities db2 = new BAZA_ARIMREntities();
+            //    ZGLOSZENIA_ newItem = new ZGLOSZENIA_();
+            //    newItem.NR_STADA = FarmNumber;
+            //    newItem.TYP_STADA = TypeOfFarm;
+            //    newItem.LICZBA_SZTUK = Convert.ToDouble(HowManyAnimalsInFarm);
+            //    newItem.NR_KOLCZYKA = EarTagNumber;
+            //    newItem.GATUNEK = TypeOfDeadAnimal;
+            //    newItem.PLEC = GenderOfDeadAnimal;
+            //    DateTime convert_date = DateTime.ParseExact("2000-12-12", "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+            //    newItem.DATA_URODZENIA = convert_date;
+            //    newItem.DATA_PADNIECIA = convert_date;
+            //    newItem.GODZINA_PADNIECIA = HourOfDeadAnimal;
+            //    newItem.PRZYCZYNA = DeadDeterminedOrNot;
+            //    newItem.OPIS_PRZYCZYNA = WhyDead;
+            //    newItem.KTO_ODBIERA = UtilizationCompany;
+            //    newItem.OSOBA_ZGL = WhoReportingNewNotification;
+            //    newItem.ADRES_OSOBY_ZGL = AddressPersonReporting;
+            //    newItem.TEL_OSOBY_ZGL = PhonePersonReporting;
+            //    newItem.DATA_CZAS_ZGL = DateAndTimeNewNotificationOfAnimalDead;
+            //    newItem.KTO_PRZYJMUJE_ZGL  = WhoGetNewNotification;
+
+            //    db2.ZGLOSZENIA_.Add(newItem);
+            //    db2.SaveChanges();
+
+            //    PrintSendMail okno = new PrintSendMail(this);// otwieramy nowe okno
+            //    okno.Owner = this;
+            //    okno.ShowDialog();
+
+            //    ClearAlls(); // czyszczenie wszystkoch boxów i pól
+            //}
+            //catch (SqlException odbcEx)
+            //{
+            //    MessageBox.Show("Coś poszło nie tak z zapisem zgłoszenia, trzeba to sprawdzić.");// obsługa bardziej szczegółowych wyjątkóws.GetDBConnection().Close(); // zamykanie połączenia 
+            //   // cs.GetDBConnection().Close(); // zamykanie połączenia 
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("błąd 2"); // obsługa wyjątku głównego 
+            //   // cs.GetDBConnection().Close(); // zamykanie połączenia 
+            //}
+
+
+            //koniec zapisu Entity Framework
+
+
 
             string WhatTypeOfAnimalDead()
             {
@@ -273,59 +326,60 @@ namespace ZgłoszeniaPIWOlesno
             txtComment.Clear();
         }
 
-        private static void ConvertDataToCommandSQL(SqlCommand CommandSQL, string FarmNumber, string DateBorn,
-            string HowManyAnimalsInFarm, string EarTagNumber, string WhyDead, string DateDead, string HourOfDeadAnimal,
-            string TypeOfDeadAnimal, string GenderOfDeadAnimal, string DeadDeterminedOrNot, string UtilizationCompany,
-            string DateAndTimeNewNotificationOfAnimalDead, string WhoReportingNewNotification, string AddressPersonReporting,
-            string PhonePersonReporting, string WhoGetNewNotification, string TypeOfFarm) //konwersja zmiennych zawierających dane zgłoszenia do polecenia SQL
+        private static void ConvertDataToCommandSQL(SqlCommand CommandSQL, string farmNumber, string dateBorn,
+            string howManyAnimalsInFarm, string earTagNumber, string whyDead, string dateDead, string hourOfDeadAnimal,
+            string typeOfDeadAnimal, string genderOfDeadAnimal, string deadDeterminedOrNot, string utilizationCompany,
+            string dateAndTimeNewNotificationOfAnimalDead, string whoReportingNewNotification, string addressPersonReporting,
+            string phonePersonReporting, string whoGetNewNotification, string typeOfFarm) //konwersja zmiennych zawierających dane zgłoszenia do polecenia SQL
         {
-            CommandSQL.Parameters.Add("@FarmNumber", SqlDbType.VarChar).Value = FarmNumber;
-            CommandSQL.Parameters.Add("@DateBorn", SqlDbType.VarChar).Value = DateBorn;
-            CommandSQL.Parameters.Add("@HowManyAnimalsInFarm", SqlDbType.VarChar).Value = HowManyAnimalsInFarm;
-            CommandSQL.Parameters.Add("@EarTagNumber", SqlDbType.VarChar).Value = EarTagNumber;
-            CommandSQL.Parameters.Add("@WhyDead", SqlDbType.VarChar).Value = WhyDead;
-            CommandSQL.Parameters.Add("@DateDead", SqlDbType.VarChar).Value = DateDead;
-            CommandSQL.Parameters.Add("@HourOfDeadAnimal", SqlDbType.VarChar).Value = HourOfDeadAnimal;
-            CommandSQL.Parameters.Add("@TypeOfDeadAnimal", SqlDbType.VarChar).Value = TypeOfDeadAnimal;
-            CommandSQL.Parameters.Add("@GenderOfDeadAnimal", SqlDbType.VarChar).Value = GenderOfDeadAnimal;
-            CommandSQL.Parameters.Add("@DeadDeterminedOrNot", SqlDbType.VarChar).Value = DeadDeterminedOrNot;
-            CommandSQL.Parameters.Add("@UtilizationCompany", SqlDbType.VarChar).Value = UtilizationCompany;
-            CommandSQL.Parameters.Add("@DateAndTimeNewNotificationOfAnimalDead", SqlDbType.VarChar).Value = DateAndTimeNewNotificationOfAnimalDead;
-            CommandSQL.Parameters.Add("@WhoReportingNewNotification", SqlDbType.VarChar).Value = WhoReportingNewNotification;
-            CommandSQL.Parameters.Add("@AddressPersonReporting", SqlDbType.VarChar).Value = AddressPersonReporting;
-            CommandSQL.Parameters.Add("@PhonePersonReporting", SqlDbType.VarChar).Value = PhonePersonReporting;
-            CommandSQL.Parameters.Add("@WhoGetNewNotification", SqlDbType.VarChar).Value = WhoGetNewNotification;
-            CommandSQL.Parameters.Add("@TypeOfFarm", SqlDbType.VarChar).Value = TypeOfFarm;
+            CommandSQL.Parameters.Add("@farmNumber", SqlDbType.VarChar).Value = farmNumber;
+            CommandSQL.Parameters.Add("@dateBorn", SqlDbType.VarChar).Value = dateBorn;
+            CommandSQL.Parameters.Add("@howManyAnimalsInFarm", SqlDbType.VarChar).Value = howManyAnimalsInFarm;
+            CommandSQL.Parameters.Add("@earTagNumber", SqlDbType.VarChar).Value = earTagNumber;
+            CommandSQL.Parameters.Add("@whyDead", SqlDbType.VarChar).Value = whyDead;
+            CommandSQL.Parameters.Add("@dateDead", SqlDbType.VarChar).Value = dateDead;
+            CommandSQL.Parameters.Add("@hourOfDeadAnimal", SqlDbType.VarChar).Value = hourOfDeadAnimal;
+            CommandSQL.Parameters.Add("@typeOfDeadAnimal", SqlDbType.VarChar).Value = typeOfDeadAnimal;
+            CommandSQL.Parameters.Add("@genderOfDeadAnimal", SqlDbType.VarChar).Value = genderOfDeadAnimal;
+            CommandSQL.Parameters.Add("@deadDeterminedOrNot", SqlDbType.VarChar).Value = deadDeterminedOrNot;
+            CommandSQL.Parameters.Add("@utilizationCompany", SqlDbType.VarChar).Value = utilizationCompany;
+            CommandSQL.Parameters.Add("@dateAndTimeNewNotificationOfAnimalDead", SqlDbType.VarChar).Value = dateAndTimeNewNotificationOfAnimalDead;
+            CommandSQL.Parameters.Add("@whoReportingNewNotification", SqlDbType.VarChar).Value = whoReportingNewNotification;
+            CommandSQL.Parameters.Add("@addressPersonReporting", SqlDbType.VarChar).Value = addressPersonReporting;
+            CommandSQL.Parameters.Add("@phonePersonReporting", SqlDbType.VarChar).Value = phonePersonReporting;
+            CommandSQL.Parameters.Add("@whoGetNewNotification", SqlDbType.VarChar).Value = whoGetNewNotification;
+            CommandSQL.Parameters.Add("@typeOfFarm", SqlDbType.VarChar).Value = typeOfFarm;
         }
 
-        private void DataOfNewNotification(out string FarmNumber, out string DateBorn, out string HowManyAnimalsInFarm,
-            out string EarTagNumber, out string WhyDead, out string DateDead, out string HourOfDeadAnimal,
-            out string WhoReportingNewNotification, out string AddressPersonReporting, out string PhonePersonReporting,
-            out string WhoGetNewNotification, out string DateAndTimeNewNotificationOfAnimalDead, out string TypeOfFarm,
-            out string GenderOfDeadAnimal, out string DeadDeterminedOrNot, out string UtilizationCompany,
-            out string TypeOfDeadAnimal, out string Comment) //pobranie z formularza danych zgłoszenia do zmienych
+        private void DataOfNewNotification(out string farmNumber, out string dateBorn, out string howManyAnimalsInFarm,
+            out string earTagNumber, out string whyDead, out string dateDead, out string hourOfDeadAnimal,
+            out string whoReportingNewNotification, out string addressPersonReporting, out string phonePersonReporting,
+            out string whoGetNewNotification, out string dateAndTimeNewNotificationOfAnimalDead, out string typeOfFarm,
+            out string genderOfDeadAnimal, out string deadDeterminedOrNot, out string utilizationCompany,
+            out string typeOfDeadAnimal, out string comment) //pobranie z formularza danych zgłoszenia do zmienych
         {
 
-            EarTagNumber = txtEarTagNumber.Text;
-            HowManyAnimalsInFarm = txtHowManyAnimalsInFarm.Text;
-            FarmNumber = txtFarmNumber.Text;
-            DateBorn = txtDateBorn.Text;
-            DateDead = txtDateDead.Text;
-            WhyDead = txtWhyDead.Text;
-            HourOfDeadAnimal = txtHourOfDeadAnimal.Text;
-            WhoReportingNewNotification = txtWhoReportingNewNotification.Text;
-            AddressPersonReporting = txtAddressPersonReporting.Text;
-            PhonePersonReporting = txtPhonePersonReporting.Text;
-            WhoGetNewNotification = comboBox_WhoGetGetNotification.Text;
-            DateAndTimeNewNotificationOfAnimalDead = txtDateAndTimeNewNotificationOfAnimalDead.Text;
-            TypeOfFarm = comboBox_TypeOfFarm.Text;
-            GenderOfDeadAnimal = comboBox_GenderOfDeadAnimal.Text;
-            DeadDeterminedOrNot = comboBox_DeadDeterminedOrNot.Text;
-            UtilizationCompany = comboBox_UtilizationCompany.Text;
-            TypeOfDeadAnimal = txtTypeOfDeadAnimal.Text;
-            Comment = txtComment.Text;
+            earTagNumber = txtEarTagNumber.Text;
+            howManyAnimalsInFarm = txtHowManyAnimalsInFarm.Text;
+            farmNumber = txtFarmNumber.Text;
+            dateBorn = txtDateBorn.Text;
+            dateDead = txtDateDead.Text;
+            whyDead = txtWhyDead.Text;
+            hourOfDeadAnimal = txtHourOfDeadAnimal.Text;
+            whoReportingNewNotification = txtWhoReportingNewNotification.Text;
+            addressPersonReporting = txtAddressPersonReporting.Text;
+            phonePersonReporting = txtPhonePersonReporting.Text;
+            whoGetNewNotification = comboBox_WhoGetGetNotification.Text;
+            dateAndTimeNewNotificationOfAnimalDead = txtDateAndTimeNewNotificationOfAnimalDead.Text;
+            typeOfFarm = comboBox_TypeOfFarm.Text;
+            genderOfDeadAnimal = comboBox_GenderOfDeadAnimal.Text;
+            deadDeterminedOrNot = comboBox_DeadDeterminedOrNot.Text;
+            utilizationCompany = comboBox_UtilizationCompany.Text;
+            typeOfDeadAnimal = txtTypeOfDeadAnimal.Text;
+            comment = txtComment.Text;
         }
         
+        // aby tylko jeden checkbox mógł być zaznaczony 
         private void CheckBydlo_Checked(object sender, RoutedEventArgs e)
         {
             checkOwca.IsChecked = false;
