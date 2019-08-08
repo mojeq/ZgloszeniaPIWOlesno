@@ -82,7 +82,7 @@ namespace ZgłoszeniaPIWOlesno
                     }
                     else
                     {
-                        mailItem.To = "";
+                        mailItem.To = " ";
                     }
                     mailItem.Body = "Zgłoszenie padnięcia nr " + "1608/" + numberLastNotification + "/2019" + ". \nPIW Olesno\n" + officialPositionWhoGetNewNotification + "\n" + mainWindow.comboBox_WhoGetGetNotification.Text;                    
                     Microsoft.Office.Interop.Outlook.Attachments mailAttachments = mailItem.Attachments;
