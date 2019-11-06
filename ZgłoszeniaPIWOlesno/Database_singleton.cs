@@ -16,7 +16,7 @@ namespace ZgłoszeniaPIWOlesno
         private readonly SqlConnection connect = new SqlConnection(@"Data source=LAPTOP-6E2UURS8\INSERTGT;
                                                              database=BAZA_ARIMR;
                                                              User id=sa;
-                                                             Password=alpinus1;");
+                                                             Password=*******;");
 
 
 
@@ -39,7 +39,7 @@ namespace ZgłoszeniaPIWOlesno
         //       SqlConnection polaczenie = new SqlConnection(@"Data source=LAPTOP-6E2UURS8\INSERTGT;
         //                                                    database=BAZA_ARIMR;
         //                                                    User id=sa;
-        //                                                    Password=alpinus1;");
+        //                                                    Password=*******;");
 
         //      polaczenie.Open();
 
