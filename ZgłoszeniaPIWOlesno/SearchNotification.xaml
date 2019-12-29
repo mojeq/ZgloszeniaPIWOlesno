@@ -1,0 +1,21 @@
+﻿<Window x:Class="ZgłoszeniaPIWOlesno.SearchNotification"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ZgłoszeniaPIWOlesno"
+        mc:Ignorable="d"
+        Title="SearchNotification" Height="450" Width="800">
+    <Grid>
+        <DataGrid Name="dataGrid1" HorizontalAlignment="Left" Height="305" Margin="38,37,0,0" VerticalAlignment="Top" Width="713" SelectionChanged="DataGrid_SelectionChanged">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding NR_STADA}" Header="NR_STADA"/>
+                <DataGridTextColumn Binding="{Binding DATA_PADNIECIA}" Header="DATA_PADNIECIA"/>
+                <DataGridTextColumn Binding="{Binding OSOBA_ZGL}" Header="OSOBA_ZGL"/>
+                <DataGridCheckBoxColumn Header="Generuj PDF" IsThreeState="True" Binding="{Binding generatePDF}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="btnGenerateAttachments" Content="Generuj załączniki" HorizontalAlignment="Left" Margin="38,374,0,0" VerticalAlignment="Top" Width="206" Height="36" Click="BtnGenerateAttachments_Click"/>
+    </Grid>
+</Window>
