@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Runtime.InteropServices;
 using iTextSharp.text;
@@ -224,7 +224,8 @@ namespace ZgłoszeniaPIWOlesno
             // zamknij writer 
             writer.Close();
             // zakmnij obsługiwane pliki
-            fs.Close();       
+            fs.Close();
+            MessageBox.Show("Utworzono i zapisano załącznik nr 7.");
         }
         //todo:potwierdzenie dotarcia i potwierdzenia pobrania dodać na spodzie załącznika     
         private void CreateAttachmentNr6(string officialPositionWhoGetNewNotification, int howManyMonthsAnimalLive, 
@@ -360,6 +361,7 @@ namespace ZgłoszeniaPIWOlesno
             writer.Close();
             // zakmnij obsługiwane pliki
             fs.Close();
+            MessageBox.Show("Utworzono i zapisano załącznik nr 6.");
         }
 
         private void checkBseOrTseTest(out string testType) // selekcja badanie BSE/TSE w zależności od tego co padło
