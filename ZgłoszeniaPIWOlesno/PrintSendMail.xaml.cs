@@ -10,7 +10,6 @@ using System.Data;
 
 namespace ZgłoszeniaPIWOlesno
 {
-
     /// Logika interakcji dla klasy PrintSendMail.xaml
     public partial class PrintSendMail : Window       
     {
@@ -29,12 +28,9 @@ namespace ZgłoszeniaPIWOlesno
             string attachmentPath = @"C:\Users\mojeq\source\repos\ZgłoszeniaPIWOlesno\ZgłoszeniaPIWOlesno\bin\Debug\PDFy\";
             int numberLastNotificationInt = CheckNumberLastNotification();
             string numberLastNotification = numberLastNotificationInt.ToString();
-
             string officialPositionWhoGetNewNotification;
-            OfficialPosition(out officialPositionWhoGetNewNotification);
-            
-            int wiek;
-             
+            OfficialPosition(out officialPositionWhoGetNewNotification);            
+            int wiek;             
             CalculateHowOldIsDeadAnimal(out int howManyMonthsAnimalLive);
             wiek = howManyMonthsAnimalLive;
             CreateAttachmentNr7(officialPositionWhoGetNewNotification, numberLastNotification, howManyMonthsAnimalLive, savePath);
@@ -60,6 +56,7 @@ namespace ZgłoszeniaPIWOlesno
                 CreateMailWithAttachmentNr6(officialPositionWhoGetNewNotification, numberLastNotification, attachmentPath);
             }
         }
+        
         private void CreateMailWithAttachmentNr6(string officialPositionWhoGetNewNotification, string numberLastNotification, string attachmentPath)
         {
             System.Diagnostics.Process[] processes = System.Diagnostics.Process.GetProcessesByName("OUTLOOK");
@@ -97,6 +94,7 @@ namespace ZgłoszeniaPIWOlesno
                     MessageBox.Show("Utworzono wiadomość z załącznikiem nr 6.");                
             }
         }
+        
         private int CheckNumberLastNotification() // uzyskujemy numer ostatniego padnięcia w powiecie
         {
             Singleton cs = Singleton.Instance;
@@ -114,7 +112,8 @@ namespace ZgłoszeniaPIWOlesno
             reader.Close();
             cs.GetDBConnection().Close();
             return ID;
-        }                
+        }          
+        
         private void CreateAttachmentNr7(string officialPositionWhoGetNewNotification, string numberLastNotification, int howManyMonthsAnimalLive, string savePath) //tworzymy załącznik numer 7
         {            
             System.IO.FileStream fs = new FileStream(savePath+numberLastNotification +"-"+ mainWindow.txtFarmNumber.Text+"-zal7-"+ savingDateTime + ".pdf", FileMode.Create);
@@ -227,6 +226,7 @@ namespace ZgłoszeniaPIWOlesno
             fs.Close();
             MessageBox.Show("Utworzono i zapisano załącznik nr 7.");
         }
+        
         //todo:potwierdzenie dotarcia i potwierdzenia pobrania dodać na spodzie załącznika     
         private void CreateAttachmentNr6(string officialPositionWhoGetNewNotification, int howManyMonthsAnimalLive, 
             string numberLastNotification, string savepath) // tworzymy załącznik nr 6 w pdfie
@@ -378,6 +378,7 @@ namespace ZgłoszeniaPIWOlesno
                 testType = test;
             }           
         }
+        
         private void CalculateHowOldIsDeadAnimal(out int howManyMonthsAnimalLive) // liczymy ile miesięcy miało padłe zwierzę
         {            
             DateTime dateDead = DateTime.Parse(mainWindow.DateDead.Text);
