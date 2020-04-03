@@ -17,7 +17,7 @@ Project is created with:
 * Singleton
 
 ## Status
-Project is progress and commercial using in veterinary inspection. 
+Project in progress and commercial using in veterinary inspection. 
 
 ## Plans
 Development and sharing application to other inspections in opolskie area. Opolskie have 11 veterynary inspection(W opolskim powiecie jest 11 Powiatowych Inspektoratów Weterynarii). Poland have 380 areas(powiatów).
